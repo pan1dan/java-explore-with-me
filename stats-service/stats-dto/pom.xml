@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>stats-dto</artifactId>
-
+    <packaging>jar</packaging>
 <!--    <build>-->
 <!--    </build>-->
 
