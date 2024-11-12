@@ -1,4 +1,4 @@
-package ru.practicum;
+package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.practicum.dto.EndpointHit;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.dto.ViewStatsDto;
+import ru.practicum.mapper.StatsMapper;
+import ru.practicum.repository.StatsRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

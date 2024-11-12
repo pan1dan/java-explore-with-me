@@ -1,4 +1,4 @@
-package ru.practicum;
+package ru.practicum.mapper;
 
 import ru.practicum.dto.EndpointHit;
 import ru.practicum.dto.EndpointHitDto;
