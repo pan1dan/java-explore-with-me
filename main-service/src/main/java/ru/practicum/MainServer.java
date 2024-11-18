@@ -2,10 +2,20 @@ package ru.practicum;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"ru.practicum", "ru.practicum.client"})
 public class MainServer {
     public static void main(String[] args) {
         SpringApplication.run(MainServer.class, args);
+    }
+
+    // Метод для создания RestTemplate бин
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
