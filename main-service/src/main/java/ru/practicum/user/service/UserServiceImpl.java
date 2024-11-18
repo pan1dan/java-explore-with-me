@@ -15,6 +15,9 @@ import ru.practicum.exception.BadRequestException;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.ForbiddenException;
 import ru.practicum.exception.NotFoundException;
+import ru.practicum.location.mapper.LocationMapper;
+import ru.practicum.location.model.LocationDto;
+import ru.practicum.location.repository.LocationRepository;
 import ru.practicum.request.model.EventRequestStatusUpdateRequest;
 import ru.practicum.request.model.EventRequestStatusUpdateResult;
 import ru.practicum.request.model.ParticipationRequestDto;
@@ -36,6 +39,7 @@ public class UserServiceImpl implements UserService {
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
     private final RequestRepository requestRepository;
+    private final LocationRepository locationRepository;
 
     @Override
     public List<EventShortDto> getUserEvents(Long userId, Integer from, Integer size) {
@@ -139,7 +143,8 @@ public class UserServiceImpl implements UserService {
             event.setDescription(uEUR.getDescription());
         }
         if (uEUR.getLocation() != null) {
-            event.setLocation(uEUR.getLocation());
+            LocationDto locationDto = locationRepository.save(LocationMapper.fromLocationToLocationDto(uEUR.getLocation()));
+            event.setLocation(locationDto);
         }
         if (uEUR.getPaid() != null) {
             event.setPaid(uEUR.getPaid());

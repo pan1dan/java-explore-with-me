@@ -5,6 +5,7 @@ import ru.practicum.event.model.Event;
 import ru.practicum.event.model.EventFullDto;
 import ru.practicum.event.model.EventState;
 import ru.practicum.event.model.NewEventDto;
+import ru.practicum.location.mapper.LocationMapper;
 import ru.practicum.user.mapper.UserMapper;
 import ru.practicum.user.model.UserDto;
 
@@ -24,7 +25,7 @@ public class EventMapper {
                 .description(newEventDto.getDescription())
                 .eventDate(newEventDto.getEventDate())
                 .initiator(user)
-                .location(newEventDto.getLocation())
+                .location(LocationMapper.fromLocationToLocationDto(newEventDto.getLocation()))
                 .paid(newEventDto.getPaid())
                 .participantLimit(newEventDto.getParticipantLimit())
                 .publishedOn(null)
@@ -45,7 +46,7 @@ public class EventMapper {
                 .description(event.getDescription())
                 .eventDate(event.getEventDate())
                 .initiator(UserMapper.fromUserDtoToUserShortDto(event.getInitiator()))
-                .location(event.getLocation())
+                .location(LocationMapper.fromLocationDtoToLocation(event.getLocation()))
                 .paid(event.getPaid())
                 .participantLimit(event.getParticipantLimit())
                 .publishedOn(event.getPublishedOn())

@@ -11,6 +11,7 @@ import ru.practicum.event.model.UpdateEventAdminRequest;
 import ru.practicum.user.model.NewUserRequest;
 import ru.practicum.user.model.UserDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AdminService {
@@ -24,8 +25,8 @@ public interface AdminService {
     List<EventShortDto> searchEventByCondition(List<Long> usersIds,
                                                List<String> eventsStates,
                                                List<Long> categoriesIds,
-                                               String startDate,
-                                               String endDate,
+                                               LocalDateTime startDate,
+                                               LocalDateTime endDate,
                                                Integer from,
                                                Integer size);
 

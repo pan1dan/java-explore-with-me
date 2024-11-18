@@ -3,6 +3,7 @@ package ru.practicum.exception;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,6 +15,22 @@ import java.util.List;
 
 @RestControllerAdvice
 public class ErrorHandler {
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleMissingParam(MissingServletRequestParameterException e) {
+        List<String> errors = Arrays.stream(e.getStackTrace())
+                .map(StackTraceElement::toString)
+                .toList();
+        return ApiError.builder()
+                .errors(errors)
+                .status(HttpStatus.BAD_REQUEST.toString())
+                .reason("Not enough required query params")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .build();
+    }
+
     @ExceptionHandler({MethodArgumentNotValidException.class, ValidationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleValidation(final MethodArgumentNotValidException e) {

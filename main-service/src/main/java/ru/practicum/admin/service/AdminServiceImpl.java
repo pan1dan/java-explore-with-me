@@ -20,11 +20,15 @@ import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.*;
 import ru.practicum.event.repository.EventRepository;
 import ru.practicum.exception.*;
+import ru.practicum.location.mapper.LocationMapper;
+import ru.practicum.location.model.LocationDto;
+import ru.practicum.location.repository.LocationRepository;
 import ru.practicum.user.repository.UserRepository;
 import ru.practicum.user.mapper.UserMapper;
 import ru.practicum.user.model.NewUserRequest;
 import ru.practicum.user.model.UserDto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +42,7 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
     private final CompilationsEventsRepository compilationsEventsRepository;
     private final CompilationRepository compilationRepository;
+    private final LocationRepository locationRepository;
 
     @Transactional
     @Override
@@ -80,8 +85,8 @@ public class AdminServiceImpl implements AdminService {
     public List<EventShortDto> searchEventByCondition(List<Long> usersIds,
                                                       List<String> eventsStates,
                                                       List<Long> categoriesIds,
-                                                      String startDate,
-                                                      String endDate,
+                                                      LocalDateTime startDate,
+                                                      LocalDateTime endDate,
                                                       Integer from,
                                                       Integer size) {
         if (usersIds != null) {
@@ -142,7 +147,8 @@ public class AdminServiceImpl implements AdminService {
             oldEvent.setDescription(updateEvent.getDescription());
         }
         if (updateEvent.getLocation() != null) {
-            oldEvent.setLocation(updateEvent.getLocation());
+            LocationDto locationDto = locationRepository.save(LocationMapper.fromLocationToLocationDto(updateEvent.getLocation()));
+            oldEvent.setLocation(locationDto);
         }
         if (updateEvent.getPaid() != null) {
             oldEvent.setPaid(updateEvent.getPaid());

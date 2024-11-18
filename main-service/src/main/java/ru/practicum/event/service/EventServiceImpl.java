@@ -53,13 +53,15 @@ public class EventServiceImpl implements EventService {
             }
         }
         Pageable pageable = PageRequest.of(from / size, size);
-        String sortField = "";
-        if (sort.equals("EVENT_DATE")) {
-            sortField = "eventDate";
-        } else if (sort.equals("VIEWS")) {
-            sortField = "views";
-        } else {
-            throw new BadRequestException("Incorrectly field sort");
+        String sortField = sort;
+        if (sort != null) {
+            if (sort.equals("EVENT_DATE")) {
+                sortField = "eventDate";
+            } else if (sort.equals("VIEWS")) {
+                sortField = "views";
+            } else {
+                throw new BadRequestException("Incorrectly field sort");
+            }
         }
         EndpointHitDto endpointHitDto = EndpointHitDto.builder()
                 .app("ewm-main-service")

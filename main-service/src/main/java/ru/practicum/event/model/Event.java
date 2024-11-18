@@ -3,7 +3,7 @@ package ru.practicum.event.model;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.practicum.category.model.CategoryDto;
-import ru.practicum.location.model.Location;
+import ru.practicum.location.model.LocationDto;
 import ru.practicum.user.model.UserDto;
 
 import java.time.LocalDateTime;
@@ -43,7 +43,7 @@ public class Event {
     @JoinColumn(name = "location_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    Location location;
+    LocationDto location;
     @Column(name = "paid")
     Boolean paid;
     @Column(name = "participant_limit")

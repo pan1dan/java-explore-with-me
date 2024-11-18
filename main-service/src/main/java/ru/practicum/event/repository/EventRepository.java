@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.model.EventShortDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
@@ -40,8 +41,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<EventShortDto> searchEvents(@Param("usersIds") List<Long> usersIds,
                                      @Param("eventsStates") List<String> eventsStates,
                                      @Param("categoriesIds") List<Long> categoriesIds,
-                                     @Param("startDate") String startDate,
-                                     @Param("endDate") String endDate,
+                                     @Param("startDate") LocalDateTime startDate,
+                                     @Param("endDate") LocalDateTime endDate,
                                      Pageable pageable);
 
     @Query("SELECT new ru.practicum.event.model.EventShortDto(e.id, e.annotation, e.category, e.confirmedRequests, " +
