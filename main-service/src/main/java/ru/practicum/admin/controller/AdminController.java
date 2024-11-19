@@ -86,7 +86,7 @@ public class AdminController {
     @PatchMapping("/events/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto editingEventById(@PathVariable(name = "eventId") Long eventId,
-                                         @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
+                                         @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
         log.info("PATCH admin/events/{}, body:{}", eventId, updateEventAdminRequest);
         EventFullDto eventFullDto = adminService.editingEventById(eventId, updateEventAdminRequest);
         log.info("PATCH admin/events/{}, body:{}\n return: {}", eventId, updateEventAdminRequest, eventFullDto);
