@@ -1,5 +1,6 @@
 package ru.practicum.request.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class ParticipationRequestDto {
     @Column(name = "request_id")
     Long id;
     @Column(name = "created")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime created;
     @Column(name = "event_id")
     Long event;
