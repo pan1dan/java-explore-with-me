@@ -106,7 +106,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventFullDto getEventById(Long eventId, HttpServletRequest request) {
         idValidation(eventId, "eventId");
-        Event resultEvent = eventRepository.findById(eventId).orElseThrow(() ->
+        Event resultEvent = eventRepository.findEventByEventId(eventId).orElseThrow(() ->
                 new NotFoundException("Event with id=" + eventId + " was not found"));
         resultEvent.setViews(resultEvent.getViews() + 1);
         EndpointHitDto endpointHitDto = EndpointHitDto.builder()

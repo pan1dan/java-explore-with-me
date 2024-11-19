@@ -9,6 +9,7 @@ import ru.practicum.event.model.EventShortDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
 
@@ -116,4 +117,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "WHERE ce.compilationId = :compId")
     List<EventShortDto> findEventsByCompilationId(@Param("compId") Long compId);
 
+    @Query("SELECT e " +
+           "FROM Event e " +
+           "WHERE e.id = :eventId")
+    Optional<Event> findEventByEventId(@Param("eventId") Long eventId);
 }

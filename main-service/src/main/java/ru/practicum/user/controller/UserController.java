@@ -57,7 +57,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto updateUserEvent(@PathVariable(name = "userId") Long userId,
                                         @PathVariable(name = "eventId") Long eventId,
-                                        @RequestBody UpdateEventUserRequest updateEventUserRequest) {
+                                        @Valid @RequestBody UpdateEventUserRequest updateEventUserRequest) {
         log.info("PATCH /users/{}/events/{}, body: {}", userId, eventId, updateEventUserRequest);
         EventFullDto eventFullDto = userService.updateUserEvent(userId, eventId, updateEventUserRequest);
         log.info("PATCH /users/{}/events/{}, body: {},\n return: {}",
