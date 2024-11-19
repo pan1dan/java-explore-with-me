@@ -80,10 +80,11 @@ public class UserServiceImpl implements UserService {
 
         CategoryDto categoryDto = categoryRepository.findById(newEventDto.getCategory()).orElseThrow(() ->
                 new NotFoundException("Category with id= " + newEventDto.getCategory() + " was not found"));
+        LocationDto locationDto = locationRepository.save(LocationMapper.fromLocationToLocationDto(newEventDto.getLocation()));
+        Event event = EventMapper.fromNewEventDtoToEvent(newEventDto, categoryDto, user, locationDto);
 
-        return EventMapper.fromEventToEventFullDto(eventRepository.save(EventMapper.fromNewEventDtoToEvent(newEventDto,
-                                                                                                           categoryDto,
-                                                                                                           user)));
+
+        return EventMapper.fromEventToEventFullDto(eventRepository.save(event));
     }
 
     @Override

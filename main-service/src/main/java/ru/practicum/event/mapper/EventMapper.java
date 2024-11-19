@@ -3,6 +3,7 @@ package ru.practicum.event.mapper;
 import ru.practicum.category.model.CategoryDto;
 import ru.practicum.event.model.*;
 import ru.practicum.location.mapper.LocationMapper;
+import ru.practicum.location.model.LocationDto;
 import ru.practicum.user.mapper.UserMapper;
 import ru.practicum.user.model.UserDto;
 
@@ -12,7 +13,8 @@ public class EventMapper {
 
         public static Event fromNewEventDtoToEvent(NewEventDto newEventDto,
                                                    CategoryDto categoryDto,
-                                                   UserDto user) {
+                                                   UserDto user,
+                                                   LocationDto locationDto) {
         return Event.builder()
                 .id(null)
                 .annotation(newEventDto.getAnnotation())
@@ -22,7 +24,7 @@ public class EventMapper {
                 .description(newEventDto.getDescription())
                 .eventDate(newEventDto.getEventDate())
                 .initiator(user)
-                .location(LocationMapper.fromLocationToLocationDto(newEventDto.getLocation()))
+                .location(locationDto)
                 .paid(newEventDto.getPaid())
                 .participantLimit(newEventDto.getParticipantLimit())
                 .publishedOn(null)
