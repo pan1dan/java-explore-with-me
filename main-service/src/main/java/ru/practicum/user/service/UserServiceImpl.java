@@ -77,7 +77,9 @@ public class UserServiceImpl implements UserService {
         if (newEventDto.getRequestModeration() == null) {
             newEventDto.setRequestModeration(true);
         }
-
+        if (newEventDto.getPaid() == null) {
+            newEventDto.setPaid(false);
+        }
         CategoryDto categoryDto = categoryRepository.findById(newEventDto.getCategory()).orElseThrow(() ->
                 new NotFoundException("Category with id= " + newEventDto.getCategory() + " was not found"));
         LocationDto locationDto = locationRepository.save(LocationMapper.fromLocationToLocationDto(newEventDto.getLocation()));

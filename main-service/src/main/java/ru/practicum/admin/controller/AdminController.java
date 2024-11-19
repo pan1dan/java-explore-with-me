@@ -106,7 +106,7 @@ public class AdminController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto addNewUser(@RequestBody NewUserRequest newUserRequest) {
+    public UserDto addNewUser(@Valid @RequestBody NewUserRequest newUserRequest) {
         log.info("POST /admin/users, body: {}", newUserRequest);
         UserDto userDto = adminService.addNewUser(newUserRequest);
         log.info("POST /admin/users, body: {}\n return: {}", newUserRequest, userDto);
@@ -123,7 +123,7 @@ public class AdminController {
 
     @PostMapping("/compilations")
     @ResponseStatus(HttpStatus.CREATED)
-    public CompilationDto addNewCompilations(@RequestBody NewCompilationDto newCompilationDto) {
+    public CompilationDto addNewCompilations(@Valid @RequestBody NewCompilationDto newCompilationDto) {
         log.info("POST /admin/compilations, body: {}", newCompilationDto);
         CompilationDto compilationDto = adminService.addNewCompilations(newCompilationDto);
         log.info("POST /admin/compilations, body: {}\n return: {}", newCompilationDto, compilationDto);
@@ -141,7 +141,7 @@ public class AdminController {
     @PatchMapping("/compilations/{compId}")
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto updateCompilation(@PathVariable(name = "compId") Long compId,
-                                            @RequestBody UpdateCompilationRequest updateCompilation) {
+                                            @Valid @RequestBody UpdateCompilationRequest updateCompilation) {
         log.info("PATCH /admin/compilations/{}, body: {}", compId, updateCompilation);
         CompilationDto compilationDto = adminService.updateCompilation(compId, updateCompilation);
         log.info("PATCH /admin/compilations/{}, body: {}\n return: {}", compId, updateCompilation, compilationDto);

@@ -30,7 +30,6 @@ public class NewEventDto {
     LocalDateTime eventDate;
     @NotNull(message = "must not be null")
     Location location;
-    @NotNull(message = "must not be null")
     Boolean paid;
     @NotNull(message = "must not be null")
     @PositiveOrZero(message = "must be greater than or equal to 0")
