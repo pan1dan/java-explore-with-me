@@ -61,6 +61,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    @Transactional
     @Override
     public void deleteCategoryById(Long catId) {
         idValidation(catId, "catId");
@@ -75,6 +76,7 @@ public class AdminServiceImpl implements AdminService {
         categoryRepository.deleteById(catId);
     }
 
+    @Transactional
     @Override
     public CategoryDto updateCategoryById(Long catId, CategoryDto updateCategory) {
         idValidation(catId, "catId");
@@ -88,6 +90,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    @Transactional
     @Override
     public List<EventShortDto> searchEventByCondition(List<Long> usersIds,
                                                       List<String> eventsStates,
@@ -151,6 +154,7 @@ public class AdminServiceImpl implements AdminService {
 //        return eventRepository.searchEvents(usersIds, eventsStates, categoriesIds, startDate, endDate, pageable);
     }
 
+    @Transactional
     @Override
     public EventFullDto editingEventById(Long eventId, UpdateEventAdminRequest updateEvent) {
         idValidation(eventId, "eventId");
@@ -209,10 +213,10 @@ public class AdminServiceImpl implements AdminService {
         if (updateEvent.getTitle() != null) {
             oldEvent.setTitle(updateEvent.getTitle());
         }
-
         return EventMapper.fromEventToEventFullDto(eventRepository.save(oldEvent));
     }
 
+    @Transactional
     @Override
     public List<UserDto> getUsersInformationByCondition(List<Long> usersIds, Integer from, Integer size) {
         if (usersIds != null) {
@@ -230,12 +234,14 @@ public class AdminServiceImpl implements AdminService {
         return userRepository.findAllUsersByCondition(usersIds, pageable);
     }
 
+    @Transactional
     @Override
     public UserDto addNewUser(NewUserRequest newUserRequest) {
         UserDto newUser = UserMapper.fromNewUserRequestToUserDto(newUserRequest);
         return userRepository.save(newUser);
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long userId) {
         idValidation(userId, "userId");
@@ -269,6 +275,7 @@ public class AdminServiceImpl implements AdminService {
         return resultCompilationDto;
     }
 
+    @Transactional
     @Override
     public void deleteCompilationById(Long compId) {
         idValidation(compId, "compId");

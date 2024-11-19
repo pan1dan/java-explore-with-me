@@ -25,7 +25,7 @@ public class Event {
     @Column(name = "annotation")
     String annotation;
     @JoinColumn(name = "category_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
     CategoryDto category;
     @Column(name = "confirmed_requests")
@@ -37,11 +37,11 @@ public class Event {
     @Column(name = "event_date")
     LocalDateTime eventDate;
     @JoinColumn(name = "initiator_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
     UserDto initiator;
     @JoinColumn(name = "location_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
     LocationDto location;
     @Column(name = "paid")
