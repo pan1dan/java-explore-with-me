@@ -200,7 +200,7 @@ public class UserServiceImpl implements UserService {
         idValidation(eventId, "eventId");
         UserDto userDto = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User with id= "
                 + userId + " was not found"));
-        Event event = eventRepository.findById(eventId)
+        Event event = eventRepository.findEventByEventId(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with id= " + eventId + " was not found"));
         List<Long> requestsIds = updateRequest.getRequestIds();
 

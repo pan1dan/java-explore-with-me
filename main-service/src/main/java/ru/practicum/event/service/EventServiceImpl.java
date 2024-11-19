@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.client.StatsClient;
 import ru.practicum.dto.EndpointHitDto;
+import ru.practicum.dto.ViewStatsDto;
 import ru.practicum.event.interfaces.EventService;
 import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.*;
@@ -40,16 +41,17 @@ public class EventServiceImpl implements EventService {
                                                     Integer from,
                                                     Integer size,
                                                     HttpServletRequest request) {
+        if (categoriesIds != null) {
+            for (Long categoryId : categoriesIds) {
+                idValidation(categoryId, "categoryId");
+            }
+        }
+
         if (from < 0) {
             throw new BadRequestException("Request parameter from must be greater than 0, now from=" + from);
         }
         if (size < 0) {
             throw new BadRequestException("Request parameter 'size' must be greater than 0, now size=" + size);
-        }
-        if (categoriesIds != null) {
-            for (Long categoryId : categoriesIds) {
-                idValidation(categoryId, "categoryId");
-            }
         }
         Pageable pageable = PageRequest.of(from / size, size);
         if (text == null) {
@@ -79,25 +81,28 @@ public class EventServiceImpl implements EventService {
                                                                    sort);
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
             LocalDateTime parsedStartDate = LocalDateTime.parse(startDate, formatter);
             LocalDateTime parsedEndDate = LocalDateTime.parse(endDate, formatter);
+            if (parsedEndDate.isBefore(parsedStartDate)) {
+                throw new BadRequestException("The end date cannot be earlier than the start date");
+            }
+
             events = eventRepository.findAllEventsByFilter("%" + text.toLowerCase() + "%",
-                    categoriesIds,
-                    isPaid,
-                    parsedStartDate,
-                    parsedEndDate,
-                    pageable,
-                    EventState.PUBLISHED.name(),
-                    sort);
+                                                           categoriesIds,
+                                                           isPaid,
+                                                           parsedStartDate,
+                                                           parsedEndDate,
+                                                           pageable,
+                                                           EventState.PUBLISHED.name(),
+                                                           sort);
         }
 
         EndpointHitDto endpointHitDto = EndpointHitDto.builder()
-                .app("ewm-main-service")
-                .uri(request.getRequestURI())
-                .ip(request.getRemoteAddr())
-                .timestamp(LocalDateTime.now())
-                .build();
+                                                       .app("ewm-main-service")
+                                                       .uri(request.getRequestURI())
+                                                       .ip(request.getRemoteAddr())
+                                                       .timestamp(LocalDateTime.now())
+                                                       .build();
         statsClient.saveHit(endpointHitDto);
         return events.stream().map(EventMapper::fromEventToEventShortDto).toList();
     }
@@ -115,6 +120,12 @@ public class EventServiceImpl implements EventService {
                 .ip(request.getRemoteAddr())
                 .timestamp(LocalDateTime.now())
                 .build();
+        statsClient.saveHit(endpointHitDto);
+        List<ViewStatsDto> viewStatsDtoList = statsClient.getStats(resultEvent.getPublishedOn(),
+                                                                   resultEvent.getEventDate(),
+                                                                   List.of(request.getRequestURI()),
+                                                                   true);
+        resultEvent.setViews(viewStatsDtoList.size());
         return EventMapper.fromEventToEventFullDto(eventRepository.save(resultEvent));
     }
 
