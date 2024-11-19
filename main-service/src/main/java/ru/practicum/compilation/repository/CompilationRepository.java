@@ -22,7 +22,4 @@ public interface CompilationRepository extends JpaRepository<Compilation, Long> 
             "FROM Compilation c " +
             "WHERE c.id = :compId")
     Optional<CompilationDto> findCompilationById(@Param("compId") Long compId);
-
-    @Query
-    Compilation saveCompilation();
 }
