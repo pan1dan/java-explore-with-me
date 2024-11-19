@@ -295,8 +295,13 @@ public class UserServiceImpl implements UserService {
                 .created(LocalDateTime.now())
                 .event(eventId)
                 .requester(userId)
-                .status(event.getRequestModeration() ? RequestStatus.CONFIRMED.name() : RequestStatus.PENDING.name())
+                .status(null)
                 .build();
+        if (event.getRequestModeration()) {
+            newRequest.setStatus(RequestStatus.PENDING.name());
+        } else {
+            newRequest.setStatus(RequestStatus.CONFIRMED.name());
+        }
         return requestRepository.save(newRequest);
     }
 
