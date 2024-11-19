@@ -28,6 +28,7 @@ import ru.practicum.user.interfaces.UserService;
 import ru.practicum.user.model.UserDto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class UserServiceImpl implements UserService {
     private final CategoryRepository categoryRepository;
     private final RequestRepository requestRepository;
     private final LocationRepository locationRepository;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public List<EventShortDto> getUserEvents(Long userId, Integer from, Integer size) {
@@ -111,13 +113,13 @@ public class UserServiceImpl implements UserService {
 
     private Event updateEvent(Event event, UpdateEventUserRequest uEUR) {
         if (uEUR.getEventDate() != null) {
-            if (uEUR.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
+            if (LocalDateTime.parse(uEUR.getEventDate().formatted(formatter)).isBefore(LocalDateTime.now().plusHours(2))) {
                 throw new ConflictException("Field: eventDate. " +
                                             "Error: должно содержать дату, которая еще не наступила и " +
                                             "отличаться от текущего времени минимум на два часа. " +
                                             "Value: " + uEUR.getEventDate());
             }
-            event.setEventDate(uEUR.getEventDate());
+            event.setEventDate(LocalDateTime.parse(uEUR.getEventDate().formatted(formatter)));
         }
         if (uEUR.getAnnotation() != null) {
             if (uEUR.getAnnotation().length() < 20 || uEUR.getAnnotation().length() > 2000) {
@@ -131,7 +133,7 @@ public class UserServiceImpl implements UserService {
                 throw new ForbiddenException("Category id must be greater than or equal to 0, " +
                         "now category=" + uEUR.getCategory());
             }
-            event.setCategory(categoryRepository.findById(uEUR.getCategory())
+            event.setCategory(categoryRepository.findById(Long.valueOf(uEUR.getCategory()))
                     .orElseThrow(() -> new NotFoundException("Category with id= " + uEUR.getCategory() +
                                                                                                   " was not found")));
         }

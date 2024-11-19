@@ -11,15 +11,14 @@ import ru.practicum.client.StatsClient;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.event.interfaces.EventService;
 import ru.practicum.event.mapper.EventMapper;
-import ru.practicum.event.model.Event;
-import ru.practicum.event.model.EventFullDto;
-import ru.practicum.event.model.EventShortDto;
-import ru.practicum.event.model.EventState;
+import ru.practicum.event.model.*;
 import ru.practicum.event.repository.EventRepository;
 import ru.practicum.exception.BadRequestException;
 import ru.practicum.exception.NotFoundException;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,16 +52,46 @@ public class EventServiceImpl implements EventService {
             }
         }
         Pageable pageable = PageRequest.of(from / size, size);
-        String sortField = sort;
+        if (text == null) {
+            text = "";
+        }
+        if (categoriesIds == null) {
+            categoriesIds = new ArrayList<>();
+        }
+        String sortField = "e.id";
         if (sort != null) {
             if (sort.equals("EVENT_DATE")) {
-                sortField = "eventDate";
+                sortField = "e.eventDate";
             } else if (sort.equals("VIEWS")) {
-                sortField = "views";
+                sortField = "e.views";
             } else {
                 throw new BadRequestException("Incorrectly field sort");
             }
         }
+        List<Event> events;
+        if (startDate == null && endDate == null) {
+            LocalDateTime now = LocalDateTime.now();
+            events = eventRepository.findAllEventsByFilterWithoutTime("%" + text.toLowerCase() + "%",
+                                                                   categoriesIds,
+                                                                   isPaid,
+                                                                   pageable,
+                                                                   EventState.PUBLISHED.name(),
+                                                                   sort);
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            LocalDateTime parsedStartDate = LocalDateTime.parse(startDate, formatter);
+            LocalDateTime parsedEndDate = LocalDateTime.parse(endDate, formatter);
+            events = eventRepository.findAllEventsByFilter("%" + text.toLowerCase() + "%",
+                    categoriesIds,
+                    isPaid,
+                    parsedStartDate,
+                    parsedEndDate,
+                    pageable,
+                    EventState.PUBLISHED.name(),
+                    sort);
+        }
+
         EndpointHitDto endpointHitDto = EndpointHitDto.builder()
                 .app("ewm-main-service")
                 .uri(request.getRequestURI())
@@ -70,15 +99,7 @@ public class EventServiceImpl implements EventService {
                 .timestamp(LocalDateTime.now())
                 .build();
         statsClient.saveHit(endpointHitDto);
-        return eventRepository.findAllEventsByFilter(text,
-                                                     categoriesIds,
-                                                     isPaid,
-                                                     startDate,
-                                                     endDate,
-                                                     isAvailable,
-                                                     sortField,
-                                                     pageable,
-                                                     EventState.PUBLISHED.name());
+        return events.stream().map(EventMapper::fromEventToEventShortDto).toList();
     }
 
     @Transactional

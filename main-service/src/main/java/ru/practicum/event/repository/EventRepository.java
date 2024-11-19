@@ -52,29 +52,61 @@ public interface EventRepository extends JpaRepository<Event, Long> {
            "WHERE e.id IN :eventIds")
     List<EventShortDto> findAllEventsByIds(@Param("eventIds") List<Long> eventIds);
 
-    @Query("SELECT new ru.practicum.event.model.EventShortDto(e.id, e.annotation, e.category, e.confirmedRequests, " +
-           "e.eventDate, new ru.practicum.user.model.UserShortDto(e.initiator.id, e.initiator.name), " +
-           "e.paid, e.title, e.views) " +
+    @Query("SELECT e " +
            "FROM Event e " +
            "WHERE e.state = :state " +
-           "AND (:text IS NULL OR (LOWER(e.annotation) LIKE LOWER(CONCAT('%', :text, '%')) " +
-           "OR LOWER(e.description) LIKE LOWER(CONCAT('%', :text, '%')))) " +
-           "AND (:categoriesIds IS NULL OR e.category.id IN :categoriesIds) " +
-           "AND (:isPaid IS NULL OR e.paid = :isPaid) " +
-           "AND (:startDate IS NULL OR e.eventDate >= :startDate) " +
-           "AND (:endDate IS NULL OR e.eventDate <= :endDate) " +
-           "AND (:isAvailable IS NULL OR e.confirmedRequests < e.participantLimit) " +
-           "ORDER BY CASE WHEN :sort = 'eventDate' THEN e.eventDate END ASC, " +
-           "CASE WHEN :sort = 'views' THEN e.views END ASC")
-    List<EventShortDto> findAllEventsByFilter(@Param("text") String text,
+           "AND LOWER(e.annotation) like LOWER(:text) " +
+           "AND e.category.id IN :categoriesIds " +
+           "AND (:paid IS NULL OR e.paid = :paid) " +
+           "ORDER BY :sort ASC")
+    List<Event> findAllEventsByFilterWithoutTime(@Param("text") String textA,
                                               @Param("categoriesIds") List<Long> categoriesIds,
-                                              @Param("isPaid") Boolean isPaid,
-                                              @Param("startDate") String startDate,
-                                              @Param("endDate") String endDate,
-                                              @Param("isAvailable") Boolean isAvailable,
-                                              @Param("sort") String sort,
+                                              @Param("paid") Boolean isPaid,
                                               Pageable pageable,
-                                              @Param("state") String state);
+                                              @Param("state") String state,
+                                              @Param("sort") String sort);
+
+    @Query("SELECT e " +
+           "FROM Event e " +
+           "WHERE e.state = :state " +
+           "AND LOWER(e.annotation) like LOWER(:text) " +
+           "AND e.category.id IN :categoriesIds " +
+           "AND (:paid IS NULL OR e.paid = :paid) " +
+           "AND e.eventDate BETWEEN :startDate AND :endDate " +
+           "ORDER BY :sort ASC")
+    List<Event> findAllEventsByFilter(@Param("text") String text,
+                                      @Param("categoriesIds") List<Long> categoriesIds,
+                                      @Param("paid") Boolean isPaid,
+                                      @Param("startDate") LocalDateTime startDate,
+                                      @Param("endDate") LocalDateTime endDate,
+                                      Pageable pageable,
+                                      @Param("state") String state,
+                                      @Param("sort") String sort);
+
+//    @Query("SELECT new ru.practicum.event.model.EventShortDto(e.id, e.annotation, e.category, e.confirmedRequests, " +
+//            "e.eventDate, new ru.practicum.user.model.UserShortDto(e.initiator.id, e.initiator.name), " +
+//            "e.paid, e.title, e.views) " +
+//            "FROM Event e " +
+//            "WHERE e.state = :state " +
+//            "AND (:text IS NULL OR (LOWER(e.annotation) LIKE LOWER(CONCAT('%', :text, '%')) " +
+//            "OR LOWER(e.description) LIKE LOWER(CONCAT('%', :text, '%')))) " +
+//            "AND (:categoriesIds IS NULL OR e.category.id IN :categoriesIds) " +
+//            "AND (:isPaid IS NULL OR e.paid = :isPaid) " +
+//            "AND (:startDate IS NULL OR e.eventDate >= :startDate) " +
+//            "AND (:endDate IS NULL OR e.eventDate <= :endDate) " +
+//            "AND (:isAvailable IS NULL OR e.confirmedRequests < e.participantLimit) " +
+//            "ORDER BY CASE WHEN :sort = 'eventDate' THEN e.eventDate END ASC, " +
+//            "CASE WHEN :sort = 'views' THEN e.views END ASC")
+//    List<EventShortDto> findAllEventsByFilter(@Param("text") String text,
+//                                              @Param("categoriesIds") List<Long> categoriesIds,
+//                                              @Param("isPaid") Boolean isPaid,
+//                                              @Param("startDate") LocalDateTime startDate,
+//                                              @Param("endDate") LocalDateTime endDate,
+//                                              @Param("isAvailable") Boolean isAvailable,
+//                                              @Param("sort") String sort,
+//                                              Pageable pageable,
+//                                              @Param("state") String state);
+
 
     @Query("SELECT new ru.practicum.event.model.EventShortDto(e.id, e.annotation, e.category, e.confirmedRequests, " +
             "e.eventDate, new ru.practicum.user.model.UserShortDto(e.initiator.id, e.initiator.name), " +

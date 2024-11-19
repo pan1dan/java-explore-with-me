@@ -1,10 +1,7 @@
 package ru.practicum.event.mapper;
 
 import ru.practicum.category.model.CategoryDto;
-import ru.practicum.event.model.Event;
-import ru.practicum.event.model.EventFullDto;
-import ru.practicum.event.model.EventState;
-import ru.practicum.event.model.NewEventDto;
+import ru.practicum.event.model.*;
 import ru.practicum.location.mapper.LocationMapper;
 import ru.practicum.user.mapper.UserMapper;
 import ru.practicum.user.model.UserDto;
@@ -56,5 +53,20 @@ public class EventMapper {
                 .views(event.getViews())
                 .build();
     }
+
+    public static EventShortDto fromEventToEventShortDto(Event event) {
+        return EventShortDto.builder()
+                            .id(event.getId())
+                            .annotation(event.getAnnotation())
+                            .category(event.getCategory())
+                            .confirmedRequests(event.getConfirmedRequests())
+                            .eventDate(event.getEventDate())
+                            .initiator(UserMapper.fromUserDtoToUserShortDto(event.getInitiator()))
+                            .paid(event.getPaid())
+                            .title(event.getTitle())
+                            .views(event.getViews())
+                            .build();
+    }
+
 
 }

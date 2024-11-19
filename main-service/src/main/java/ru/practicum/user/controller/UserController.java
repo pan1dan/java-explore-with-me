@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.event.model.*;
 import ru.practicum.request.model.EventRequestStatusUpdateRequest;
@@ -13,6 +14,7 @@ import ru.practicum.user.interfaces.UserService;
 
 import java.util.List;
 
+@Validated
 @RestController
 @Slf4j
 @RequiredArgsConstructor

@@ -16,7 +16,7 @@ import java.util.List;
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ExceptionHandler({MissingServletRequestParameterException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleMissingParam(MissingServletRequestParameterException e) {
         List<String> errors = Arrays.stream(e.getStackTrace())

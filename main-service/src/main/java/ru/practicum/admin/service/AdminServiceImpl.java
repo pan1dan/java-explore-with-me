@@ -1,5 +1,9 @@
 package ru.practicum.admin.service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +47,9 @@ public class AdminServiceImpl implements AdminService {
     private final CompilationsEventsRepository compilationsEventsRepository;
     private final CompilationRepository compilationRepository;
     private final LocationRepository locationRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Transactional
     @Override
@@ -89,19 +96,59 @@ public class AdminServiceImpl implements AdminService {
                                                       LocalDateTime endDate,
                                                       Integer from,
                                                       Integer size) {
-        if (usersIds != null) {
-            for (Long id : usersIds) {
-                idValidation(id, "userId");
-            }
+
+        QEvent event = QEvent.event;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        if (usersIds != null && !usersIds.isEmpty()) {
+            booleanBuilder.and(event.initiator.id.in(usersIds));
         }
-        if (from < 0) {
-            throw new BadRequestException("Request parameter from must be greater than 0, now from=" + from);
+
+        if (eventsStates != null && !eventsStates.isEmpty()) {
+            booleanBuilder.and(event.state.in(eventsStates));
         }
-        if (size < 0) {
-            throw new BadRequestException("Request parameter 'size' must be greater than 0, now size=" + size);
+
+        if (categoriesIds != null && !categoriesIds.isEmpty()) {
+            booleanBuilder.and(event.category.id.in(categoriesIds));
         }
+
+        if (startDate != null && endDate != null) {
+            booleanBuilder.and(event.eventDate.between(startDate, endDate));
+        } else if (startDate != null) {
+            booleanBuilder.and(event.eventDate.goe(startDate));
+        } else if (endDate != null) {
+            booleanBuilder.and(event.eventDate.loe(endDate));
+        }
+
         Pageable pageable = PageRequest.of(from / size, size);
-        return eventRepository.searchEvents(usersIds, eventsStates, categoriesIds, startDate, endDate, pageable);
+
+        JPAQuery<EventShortDto> query = new JPAQuery<>(entityManager);
+        List<Event> events = query.select(event)
+                .from(event)
+                .where(booleanBuilder)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return events.stream().map(EventMapper::fromEventToEventShortDto).toList();
+
+
+//        if (usersIds != null) {
+//            for (Long id : usersIds) {
+//                idValidation(id, "userId");
+//            }
+//        }
+//        if (from < 0) {
+//            throw new BadRequestException("Request parameter from must be greater than 0, now from=" + from);
+//        }
+//        if (size < 0) {
+//            throw new BadRequestException("Request parameter 'size' must be greater than 0, now size=" + size);
+//        }
+//
+//
+//
+//        Pageable pageable = PageRequest.of(from / size, size);
+//        return eventRepository.searchEvents(usersIds, eventsStates, categoriesIds, startDate, endDate, pageable);
     }
 
     @Override

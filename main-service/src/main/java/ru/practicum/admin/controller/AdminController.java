@@ -58,14 +58,13 @@ public class AdminController {
     @GetMapping("/events")
     @ResponseStatus(HttpStatus.OK)
     public List<EventShortDto> searchEventByCondition(
-            @RequestParam(required = false, name = "users") List<Long> usersIds,
-            @RequestParam(required = false, name = "states") List<String> eventsStates,
-            @RequestParam(required = false, name = "categories") List<Long> categoriesIds,
-            @RequestParam(required = false, name = "rangeStart") String startDate,
-            @RequestParam(required = false, name = "rangeEnd") String endDate,
-            @RequestParam(defaultValue = "0", name = "from") Integer from,
-            @RequestParam(defaultValue = "10", name = "size") Integer size) {
-
+                                        @RequestParam(required = false, name = "users") List<Long> usersIds,
+                                        @RequestParam(required = false, name = "states") List<String> eventsStates,
+                                        @RequestParam(required = false, name = "categories") List<Long> categoriesIds,
+                                        @RequestParam(required = false, name = "rangeStart") String startDate,
+                                        @RequestParam(required = false, name = "rangeEnd") String endDate,
+                                        @RequestParam(defaultValue = "0", name = "from") Integer from,
+                                        @RequestParam(defaultValue = "10", name = "size") Integer size) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime startDateTime = startDate != null ? LocalDateTime.parse(startDate, formatter) : null;
         LocalDateTime endDateTime = endDate != null ? LocalDateTime.parse(endDate, formatter) : null;
