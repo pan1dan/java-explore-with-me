@@ -2,7 +2,7 @@ package ru.practicum.event.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ru.practicum.category.model.CategoryDto;
+import ru.practicum.category.model.Category;
 import ru.practicum.location.model.LocationDto;
 import ru.practicum.user.model.UserDto;
 
@@ -27,7 +27,7 @@ public class Event {
     @JoinColumn(name = "category_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
-    CategoryDto category;
+    Category category;
     @Column(name = "confirmed_requests")
     Integer confirmedRequests;
     @Column(name = "created_on")

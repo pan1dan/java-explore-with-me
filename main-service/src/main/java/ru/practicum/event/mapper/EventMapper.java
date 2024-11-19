@@ -1,6 +1,7 @@
 package ru.practicum.event.mapper;
 
-import ru.practicum.category.model.CategoryDto;
+import ru.practicum.category.mapper.CategoryMapper;
+import ru.practicum.category.model.Category;
 import ru.practicum.event.model.*;
 import ru.practicum.location.mapper.LocationMapper;
 import ru.practicum.location.model.LocationDto;
@@ -12,13 +13,13 @@ import java.time.LocalDateTime;
 public class EventMapper {
 
         public static Event fromNewEventDtoToEvent(NewEventDto newEventDto,
-                                                   CategoryDto categoryDto,
+                                                   Category category,
                                                    UserDto user,
                                                    LocationDto locationDto) {
         return Event.builder()
                 .id(null)
                 .annotation(newEventDto.getAnnotation())
-                .category(categoryDto)
+                .category(category)
                 .confirmedRequests(0)
                 .createdOn(LocalDateTime.now())
                 .description(newEventDto.getDescription())
@@ -39,7 +40,7 @@ public class EventMapper {
         return EventFullDto.builder()
                 .id(event.getId())
                 .annotation(event.getAnnotation())
-                .category(event.getCategory())
+                .category(CategoryMapper.fromCategoryToCategoryDto(event.getCategory()))
                 .confirmedRequests(event.getConfirmedRequests())
                 .createdOn(event.getCreatedOn())
                 .description(event.getDescription())
@@ -60,7 +61,7 @@ public class EventMapper {
         return EventShortDto.builder()
                             .id(event.getId())
                             .annotation(event.getAnnotation())
-                            .category(event.getCategory())
+                            .category(CategoryMapper.fromCategoryToCategoryDto(event.getCategory()))
                             .confirmedRequests(event.getConfirmedRequests())
                             .eventDate(event.getEventDate())
                             .initiator(UserMapper.fromUserDtoToUserShortDto(event.getInitiator()))

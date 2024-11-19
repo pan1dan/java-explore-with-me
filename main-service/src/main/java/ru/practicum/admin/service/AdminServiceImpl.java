@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.admin.interfaces.AdminService;
 import ru.practicum.category.mapper.CategoryMapper;
+import ru.practicum.category.model.Category;
 import ru.practicum.category.model.CategoryDto;
 import ru.practicum.category.model.NewCategoryDto;
 import ru.practicum.category.repository.CategoryRepository;
@@ -55,7 +56,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public CategoryDto addNewCategory(NewCategoryDto newCategoryDto) {
         try {
-            return categoryRepository.save(CategoryMapper.fromNewCategoryDtoToCategoryDto(newCategoryDto));
+            Category category = CategoryMapper.fromNewCategoryDtoToCategory(newCategoryDto);
+            category = categoryRepository.save(CategoryMapper.fromNewCategoryDtoToCategory(newCategoryDto));
+            return CategoryMapper.fromCategoryToCategoryDto(category);
         } catch (ConstraintViolationException e) {
             throw new ConflictException(e.getMessage());
         }
@@ -65,7 +68,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteCategoryById(Long catId) {
         idValidation(catId, "catId");
-        CategoryDto categoryDto = categoryRepository.findById(catId).orElseThrow(() ->
+        Category category = categoryRepository.findById(catId).orElseThrow(() ->
                 new NotFoundException("Category with id=" + catId + " was not found"));
 
         List<EventShortDto> eventShortDto = eventRepository.findFirstEventByCategoryId(catId, PageRequest.of(0, 1));
@@ -80,11 +83,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public CategoryDto updateCategoryById(Long catId, CategoryDto updateCategory) {
         idValidation(catId, "catId");
-        CategoryDto categoryDto = categoryRepository.findById(catId).orElseThrow(() ->
+        Category category = categoryRepository.findById(catId).orElseThrow(() ->
                 new NotFoundException("Category with id= " + catId + " was not found"));
-        categoryDto.setName(updateCategory.getName());
+        category.setName(updateCategory.getName());
         try {
-            return categoryRepository.save(categoryDto);
+            category = categoryRepository.save(category);
+            return CategoryMapper.fromCategoryToCategoryDto(category);
         } catch (ConstraintViolationException e) {
             throw new ConflictException(e.getMessage());
         }
@@ -175,9 +179,9 @@ public class AdminServiceImpl implements AdminService {
             oldEvent.setAnnotation(updateEvent.getAnnotation());
         }
         if (updateEvent.getCategory() != null) {
-
-            oldEvent.setCategory(categoryRepository.findById(updateEvent.getCategory()).orElseThrow(() ->
-                    new ForbiddenException("Category with id= " + updateEvent.getCategory() + " was not found")));
+            Category category = categoryRepository.findById(updateEvent.getCategory()).orElseThrow(() ->
+                    new ForbiddenException("Category with id= " + updateEvent.getCategory() + " was not found"));
+            oldEvent.setCategory(category);
         }
         if (updateEvent.getDescription() != null) {
             oldEvent.setDescription(updateEvent.getDescription());

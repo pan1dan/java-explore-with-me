@@ -47,7 +47,7 @@ public class AdminController {
     @PatchMapping("/categories/{catId}")
     @ResponseStatus(HttpStatus.OK)
     public CategoryDto updateCategoryById(@PathVariable(name = "catId") Long catId,
-                                          @RequestBody CategoryDto updateCategory) {
+                                          @Valid @RequestBody CategoryDto updateCategory) {
         log.info("PATCH /admin/categories/{}, body: {}", catId, updateCategory);
         CategoryDto categoryDto = adminService.updateCategoryById(catId, updateCategory);
         log.info("PATCH /admin/categories/{}, body: {}\n return : {}", catId, updateCategory, categoryDto);
@@ -72,12 +72,12 @@ public class AdminController {
                 usersIds, eventsStates, categoriesIds, startDate, endDate, from, size);
 
         List<EventFullDto> eventShortDtoList = adminService.searchEventByCondition(usersIds,
-                                                                                    eventsStates,
-                                                                                    categoriesIds,
-                                                                                    startDateTime,
-                                                                                    endDateTime,
-                                                                                    from,
-                                                                                    size);
+                                                                                   eventsStates,
+                                                                                   categoriesIds,
+                                                                                   startDateTime,
+                                                                                   endDateTime,
+                                                                                   from,
+                                                                                   size);
         log.info("GET admin/events, users={}, states={}, categories={}, rangeStart={}, rangeEnd={}, from={}, size{}\n" +
                 "return: {}", usersIds, eventsStates, categoriesIds, startDate, endDate, from, size, eventShortDtoList);
         return eventShortDtoList;

@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.category.model.CategoryDto;
+import ru.practicum.category.model.Category;
 import ru.practicum.category.repository.CategoryRepository;
 import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.*;
@@ -80,10 +80,13 @@ public class UserServiceImpl implements UserService {
         if (newEventDto.getPaid() == null) {
             newEventDto.setPaid(false);
         }
-        CategoryDto categoryDto = categoryRepository.findById(newEventDto.getCategory()).orElseThrow(() ->
+        Category category = categoryRepository.findById(newEventDto.getCategory()).orElseThrow(() ->
                 new NotFoundException("Category with id= " + newEventDto.getCategory() + " was not found"));
         LocationDto locationDto = locationRepository.save(LocationMapper.fromLocationToLocationDto(newEventDto.getLocation()));
-        Event event = EventMapper.fromNewEventDtoToEvent(newEventDto, categoryDto, user, locationDto);
+        Event event = EventMapper.fromNewEventDtoToEvent(newEventDto,
+                                                         category,
+                                                         user,
+                                                         locationDto);
 
 
         return EventMapper.fromEventToEventFullDto(eventRepository.save(event));
@@ -141,9 +144,9 @@ public class UserServiceImpl implements UserService {
                 throw new ForbiddenException("Category id must be greater than or equal to 0, " +
                         "now category=" + uEUR.getCategory());
             }
-            event.setCategory(categoryRepository.findById(Long.valueOf(uEUR.getCategory()))
-                    .orElseThrow(() -> new NotFoundException("Category with id= " + uEUR.getCategory() +
-                                                                                                  " was not found")));
+            Category category = categoryRepository.findById(Long.valueOf(uEUR.getCategory())).orElseThrow(() ->
+                    new NotFoundException("Category with id= " + uEUR.getCategory() + " was not found"));
+            event.setCategory(category);
         }
         if (uEUR.getDescription() != null) {
             if (uEUR.getDescription().length() < 20 || uEUR.getDescription().length() > 7000) {

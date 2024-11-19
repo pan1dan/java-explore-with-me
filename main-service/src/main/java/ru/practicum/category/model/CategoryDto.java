@@ -1,22 +1,14 @@
 package ru.practicum.category.model;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-@Getter
-@Setter
 @Builder
-@ToString
-@EqualsAndHashCode(of = "id")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "categories")
 public class CategoryDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
     Long id;
-    @Column(name = "name", unique = true)
+    @Size(min = 1, max = 50, message = "The name should contain from 1 to 50 characters")
     String name;
 }

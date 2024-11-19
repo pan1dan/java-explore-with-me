@@ -31,10 +31,8 @@ public class NewEventDto {
     @NotNull(message = "must not be null")
     Location location;
     Boolean paid;
-    @NotNull(message = "must not be null")
     @PositiveOrZero(message = "must be greater than or equal to 0")
     Integer participantLimit;
-    @NotNull(message = "must not be null")
     Boolean requestModeration;
     @NotBlank(message = "must not be blank")
     @Size(max = 120, min = 3, message = "The title should contain from 3 to 120 characters")
