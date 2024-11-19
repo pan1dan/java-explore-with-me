@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with id= " + eventId + " was not found"));
         if (event.getState().equals(EventState.PUBLISHED.name())) {
-            throw new ForbiddenException("Only pending or canceled events can be changed");
+            throw new ConflictException("Only admin can changed event in state PUBLISHED");
         }
 
         return EventMapper.fromEventToEventFullDto(eventRepository.save(updateEvent(event, updateEventUserRequest)));
@@ -296,9 +296,10 @@ public class UserServiceImpl implements UserService {
         if (!event.getState().equals(EventState.PUBLISHED.name())) {
             throw new ConflictException("Cannot participate in an unpublished event");
         }
-        if (event.getParticipantLimit() != 0
-                && (event.getParticipantLimit() - event.getConfirmedRequests()) == 0) {
-            throw new ConflictException("event participant limit has been exceeded");
+        if (event.getParticipantLimit() != 0) {
+            if (event.getParticipantLimit() - event.getConfirmedRequests() < 1) {
+                throw new ConflictException("event participant limit has been exceeded");
+            }
         }
         ParticipationRequestDto newRequest = ParticipationRequestDto.builder()
                 .id(null)
@@ -311,6 +312,8 @@ public class UserServiceImpl implements UserService {
             newRequest.setStatus(RequestStatus.PENDING.name());
         } else {
             newRequest.setStatus(RequestStatus.CONFIRMED.name());
+            event.setParticipantLimit(event.getParticipantLimit() + 1);
+            eventRepository.save(event);
         }
         return requestRepository.save(newRequest);
     }

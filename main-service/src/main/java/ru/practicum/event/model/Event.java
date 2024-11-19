@@ -1,5 +1,6 @@
 package ru.practicum.event.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.practicum.category.model.Category;
@@ -35,6 +36,7 @@ public class Event {
     @Column(name = "description")
     String description;
     @Column(name = "event_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime eventDate;
     @JoinColumn(name = "initiator_id")
     @ManyToOne(fetch = FetchType.EAGER)

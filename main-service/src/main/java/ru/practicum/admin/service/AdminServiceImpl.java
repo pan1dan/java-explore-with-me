@@ -4,9 +4,9 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -57,9 +57,9 @@ public class AdminServiceImpl implements AdminService {
     public CategoryDto addNewCategory(NewCategoryDto newCategoryDto) {
         try {
             Category category = CategoryMapper.fromNewCategoryDtoToCategory(newCategoryDto);
-            category = categoryRepository.save(CategoryMapper.fromNewCategoryDtoToCategory(newCategoryDto));
+            category = categoryRepository.save(category);
             return CategoryMapper.fromCategoryToCategoryDto(category);
-        } catch (ConstraintViolationException e) {
+        } catch (DataAccessException e) {
             throw new ConflictException(e.getMessage());
         }
     }
@@ -89,7 +89,7 @@ public class AdminServiceImpl implements AdminService {
         try {
             category = categoryRepository.save(category);
             return CategoryMapper.fromCategoryToCategoryDto(category);
-        } catch (ConstraintViolationException e) {
+        } catch (DataAccessException e) {
             throw new ConflictException(e.getMessage());
         }
     }
@@ -227,7 +227,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UserDto addNewUser(NewUserRequest newUserRequest) {
         UserDto newUser = UserMapper.fromNewUserRequestToUserDto(newUserRequest);
-        return userRepository.save(newUser);
+        try {
+            return userRepository.save(newUser);
+        } catch (DataAccessException e) {
+            throw new ConflictException(e.getMessage());
+        }
     }
 
     @Transactional
@@ -244,6 +248,9 @@ public class AdminServiceImpl implements AdminService {
     public CompilationDto addNewCompilations(NewCompilationDto newCompilationDto) {
         if (newCompilationDto.getPinned() == null) {
             newCompilationDto.setPinned(false);
+        }
+        if (newCompilationDto.getEvents() == null) {
+            newCompilationDto.setEvents(new ArrayList<>());
         }
         Compilation compilation = compilationRepository.save(CompilationMapper.fromNewCompilationDtoToCompilation(newCompilationDto));
         CompilationDto resultCompilationDto = CompilationMapper.fromCompilationToCompilationDto(compilation);

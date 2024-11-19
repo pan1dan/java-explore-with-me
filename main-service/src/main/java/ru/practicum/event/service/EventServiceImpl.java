@@ -72,7 +72,6 @@ public class EventServiceImpl implements EventService {
         }
         List<Event> events;
         if (startDate == null && endDate == null) {
-            LocalDateTime now = LocalDateTime.now();
             events = eventRepository.findAllEventsByFilterWithoutTime("%" + text.toLowerCase() + "%",
                                                                    categoriesIds,
                                                                    isPaid,

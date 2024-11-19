@@ -1,6 +1,7 @@
 package ru.practicum.exception;
 
 import jakarta.validation.ValidationException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -126,9 +127,9 @@ public class ErrorHandler {
                        .build();
     }
 
-    @ExceptionHandler
+    @ExceptionHandler({ConditionsNotMetException.class, DataAccessException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ApiError handleConditionsNotMetException(final ConditionsNotMetException e) {
+    public ApiError handleConditionsNotMetException(final Exception e) {
         List<String> errors = Arrays.stream(e.getStackTrace())
                 .map(StackTraceElement::toString)
                 .toList();
