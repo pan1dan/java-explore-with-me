@@ -29,7 +29,7 @@ public class StatsClient {
     }
 
     public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-        String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
+        String url = UriComponentsBuilder.fromHttpUrl(baseUrl).path("/stats")
                 .queryParam("start", start.format(dateTimeFormatter))
                 .queryParam("end", end.format(dateTimeFormatter))
                 .queryParam("uris", uris)

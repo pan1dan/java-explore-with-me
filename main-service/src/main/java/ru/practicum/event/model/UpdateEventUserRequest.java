@@ -1,5 +1,6 @@
 package ru.practicum.event.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.practicum.location.model.Location;
+
+import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -19,8 +22,8 @@ public class UpdateEventUserRequest {
     Integer category;
     @Size(min = 20, max = 7000)
     String description;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    String eventDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime eventDate;
     Location location;
     Boolean paid;
     @PositiveOrZero

@@ -101,6 +101,11 @@ public class UserServiceImpl implements UserService {
     public EventFullDto updateUserEvent(Long userId, Long eventId, UpdateEventUserRequest updateEventUserRequest) {
         idValidation(userId, "userId");
         idValidation(eventId, "eventId");
+        if (updateEventUserRequest.getEventDate() != null) {
+            if (updateEventUserRequest.getEventDate().isBefore(LocalDateTime.now())) {
+                throw new BadRequestException("Event date must before now date");
+            }
+        }
         userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User with id= " + userId +
                 " was not found"));
         Event event = eventRepository.findById(eventId)
@@ -114,13 +119,13 @@ public class UserServiceImpl implements UserService {
 
     private Event updateEvent(Event event, UpdateEventUserRequest uEUR) {
         if (uEUR.getEventDate() != null) {
-            if (LocalDateTime.parse(uEUR.getEventDate().formatted(formatter)).isBefore(LocalDateTime.now().plusHours(2))) {
+            if (uEUR.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
                 throw new ConflictException("Field: eventDate. " +
                                             "Error: должно содержать дату, которая еще не наступила и " +
                                             "отличаться от текущего времени минимум на два часа. " +
                                             "Value: " + uEUR.getEventDate());
             }
-            event.setEventDate(LocalDateTime.parse(uEUR.getEventDate().formatted(formatter)));
+            event.setEventDate(uEUR.getEventDate());
         }
         if (uEUR.getAnnotation() != null) {
             if (uEUR.getAnnotation().length() < 20 || uEUR.getAnnotation().length() > 2000) {
