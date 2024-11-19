@@ -12,7 +12,6 @@ import ru.practicum.compilation.model.CompilationDto;
 import ru.practicum.compilation.model.NewCompilationDto;
 import ru.practicum.compilation.model.UpdateCompilationRequest;
 import ru.practicum.event.model.EventFullDto;
-import ru.practicum.event.model.EventShortDto;
 import ru.practicum.event.model.UpdateEventAdminRequest;
 import ru.practicum.user.model.NewUserRequest;
 import ru.practicum.user.model.UserDto;
@@ -57,7 +56,7 @@ public class AdminController {
 
     @GetMapping("/events")
     @ResponseStatus(HttpStatus.OK)
-    public List<EventShortDto> searchEventByCondition(
+    public List<EventFullDto> searchEventByCondition(
                                         @RequestParam(required = false, name = "users") List<Long> usersIds,
                                         @RequestParam(required = false, name = "states") List<String> eventsStates,
                                         @RequestParam(required = false, name = "categories") List<Long> categoriesIds,
@@ -72,7 +71,7 @@ public class AdminController {
         log.info("GET admin/events, users={}, states={}, categories={}, rangeStart={}, rangeEnd={}, from={}, size={}",
                 usersIds, eventsStates, categoriesIds, startDate, endDate, from, size);
 
-        List<EventShortDto> eventShortDtoList = adminService.searchEventByCondition(usersIds,
+        List<EventFullDto> eventShortDtoList = adminService.searchEventByCondition(usersIds,
                                                                                     eventsStates,
                                                                                     categoriesIds,
                                                                                     startDateTime,

@@ -6,7 +6,6 @@ import ru.practicum.compilation.model.CompilationDto;
 import ru.practicum.compilation.model.NewCompilationDto;
 import ru.practicum.compilation.model.UpdateCompilationRequest;
 import ru.practicum.event.model.EventFullDto;
-import ru.practicum.event.model.EventShortDto;
 import ru.practicum.event.model.UpdateEventAdminRequest;
 import ru.practicum.user.model.NewUserRequest;
 import ru.practicum.user.model.UserDto;
@@ -22,7 +21,7 @@ public interface AdminService {
 
     CategoryDto updateCategoryById(Long catId, CategoryDto updateCategory);
 
-    List<EventShortDto> searchEventByCondition(List<Long> usersIds,
+    List<EventFullDto> searchEventByCondition(List<Long> usersIds,
                                                List<String> eventsStates,
                                                List<Long> categoriesIds,
                                                LocalDateTime startDate,

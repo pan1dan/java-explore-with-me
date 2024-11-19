@@ -113,6 +113,9 @@ public class EventServiceImpl implements EventService {
         idValidation(eventId, "eventId");
         Event resultEvent = eventRepository.findEventByEventId(eventId).orElseThrow(() ->
                 new NotFoundException("Event with id=" + eventId + " was not found"));
+        if (!resultEvent.getState().equals(EventState.PUBLISHED.name())) {
+            throw new NotFoundException("Event unavailable");
+        }
         resultEvent.setViews(resultEvent.getViews() + 1);
         EndpointHitDto endpointHitDto = EndpointHitDto.builder()
                 .app("ewm-main-service")
@@ -121,7 +124,7 @@ public class EventServiceImpl implements EventService {
                 .timestamp(LocalDateTime.now())
                 .build();
         statsClient.saveHit(endpointHitDto);
-        List<ViewStatsDto> viewStatsDtoList = statsClient.getStats(resultEvent.getPublishedOn(),
+        List<ViewStatsDto> viewStatsDtoList = statsClient.getStats(resultEvent.getCreatedOn(),
                                                                    resultEvent.getEventDate(),
                                                                    List.of(request.getRequestURI()),
                                                                    true);

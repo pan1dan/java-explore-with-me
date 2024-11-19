@@ -297,7 +297,7 @@ public class UserServiceImpl implements UserService {
                 .requester(userId)
                 .status(null)
                 .build();
-        if (event.getRequestModeration()) {
+        if (event.getRequestModeration() && event.getParticipantLimit() != 0) {
             newRequest.setStatus(RequestStatus.PENDING.name());
         } else {
             newRequest.setStatus(RequestStatus.CONFIRMED.name());

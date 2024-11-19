@@ -92,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public List<EventShortDto> searchEventByCondition(List<Long> usersIds,
+    public List<EventFullDto> searchEventByCondition(List<Long> usersIds,
                                                       List<String> eventsStates,
                                                       List<Long> categoriesIds,
                                                       LocalDateTime startDate,
@@ -133,25 +133,7 @@ public class AdminServiceImpl implements AdminService {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        return events.stream().map(EventMapper::fromEventToEventShortDto).toList();
-
-
-//        if (usersIds != null) {
-//            for (Long id : usersIds) {
-//                idValidation(id, "userId");
-//            }
-//        }
-//        if (from < 0) {
-//            throw new BadRequestException("Request parameter from must be greater than 0, now from=" + from);
-//        }
-//        if (size < 0) {
-//            throw new BadRequestException("Request parameter 'size' must be greater than 0, now size=" + size);
-//        }
-//
-//
-//
-//        Pageable pageable = PageRequest.of(from / size, size);
-//        return eventRepository.searchEvents(usersIds, eventsStates, categoriesIds, startDate, endDate, pageable);
+        return events.stream().map(EventMapper::fromEventToEventFullDto).toList();
     }
 
     @Transactional
@@ -160,6 +142,9 @@ public class AdminServiceImpl implements AdminService {
         idValidation(eventId, "eventId");
         Event oldEvent = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with id= " + eventId + " was not found"));
+        if (updateEvent.getEventDate().isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("Event date must before now date");
+        }
         if (updateEvent.getStateAction() != null) {
             if (updateEvent.getStateAction().equals(StateAction.PUBLISH_EVENT.name())) {
                 if (!oldEvent.getState().equals(EventState.PENDING.name())) {
