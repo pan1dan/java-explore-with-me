@@ -13,15 +13,16 @@ import java.util.Optional;
 public interface CompilationRepository extends JpaRepository<Compilation, Long> {
 
     @Query("SELECT new ru.practicum.compilation.model.CompilationDto(c.id, c.pinned, c.title) " +
-            "FROM Compilation c " +
-            "JOIN CompilationsEvents ce ON c.id = ce.compilationId " +
-            "JOIN Event e ON ce.eventId = e.id " +
-            "WHERE (:pinned IS NULL OR c.pinned = :pinned) " +
-            "ORDER BY c.id")
-    List<CompilationDto> findAllCompilations(@Param("pinned") Boolean pinned, Pageable pageable);
+           "FROM Compilation c " +
+           "WHERE (:pinned IS NULL OR c.pinned = :pinned) " +
+           "ORDER BY c.id")
+    List<Compilation> findAllCompilations(@Param("pinned") Boolean pinned, Pageable pageable);
 
     @Query("SELECT new ru.practicum.compilation.model.CompilationDto(c.id, c.pinned, c.title) " +
             "FROM Compilation c " +
             "WHERE c.id = :compId")
     Optional<CompilationDto> findCompilationById(@Param("compId") Long compId);
+
+    @Query
+    Compilation saveCompilation();
 }

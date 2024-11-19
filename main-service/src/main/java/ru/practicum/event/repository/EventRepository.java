@@ -109,13 +109,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 //                                              @Param("state") String state);
 
 
-    @Query("SELECT new ru.practicum.event.model.EventShortDto(e.id, e.annotation, e.category, e.confirmedRequests, " +
-            "e.eventDate, new ru.practicum.user.model.UserShortDto(e.initiator.id, e.initiator.name), " +
-            "e.paid, e.title, e.views) " +
-            "FROM Event e " +
-            "JOIN CompilationsEvents ce ON ce.eventId = e.id " +
-            "WHERE ce.compilationId = :compId")
-    List<EventShortDto> findEventsByCompilationId(@Param("compId") Long compId);
+    @Query("SELECT e " +
+           "FROM Event e " +
+           "JOIN CompilationsEvents ce ON ce.eventId = e.id " +
+           "WHERE ce.compilationId = :compId")
+    List<Event> findEventsByCompilationId(@Param("compId") Long compId);
 
     @Query("SELECT e " +
            "FROM Event e " +

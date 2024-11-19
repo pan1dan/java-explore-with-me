@@ -5,14 +5,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.practicum.compilation.mapper.CompilationMapper;
+import ru.practicum.compilation.model.Compilation;
 import ru.practicum.compilation.model.CompilationDto;
 import ru.practicum.compilation.repository.CompilationRepository;
 import ru.practicum.compilation.interfaces.CompilationService;
+import ru.practicum.event.mapper.EventMapper;
+import ru.practicum.event.model.Event;
 import ru.practicum.event.model.EventShortDto;
 import ru.practicum.event.repository.EventRepository;
 import ru.practicum.exception.BadRequestException;
 import ru.practicum.exception.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,11 +36,13 @@ public class CompilationServiceImpl implements CompilationService {
             throw new BadRequestException("Request parameter 'size' must be greater than 0, now size=" + size);
         }
         Pageable pageable = PageRequest.of(from / size, size);
-        List<CompilationDto> compilationDtoList = compilationRepository.findAllCompilations(pinned, pageable);
-
-        if (!compilationDtoList.isEmpty()) {
+        List<Compilation> compilationList = compilationRepository.findAllCompilations(pinned, pageable);
+        List<CompilationDto> compilationDtoList = new ArrayList<>();
+        if (!compilationList.isEmpty()) {
+            compilationDtoList = compilationList.stream().map(CompilationMapper::fromCompilationToCompilationDto).toList();
             for (CompilationDto compilationDto : compilationDtoList) {
-                List<EventShortDto> eventShortDtoList = eventRepository.findEventsByCompilationId(compilationDto.getId());
+                List<Event> eventList = eventRepository.findEventsByCompilationId(compilationDto.getId());
+                List<EventShortDto> eventShortDtoList = eventList.stream().map(EventMapper::fromEventToEventShortDto).toList();
                 compilationDto.setEvents(eventShortDtoList);
             }
         }
@@ -48,13 +55,10 @@ public class CompilationServiceImpl implements CompilationService {
             throw new BadRequestException("Compilation id must be greater than 0, now compId=" + compId);
         }
 
-//        return compilationRepository.findCompilationById(compId)
-//                .orElseThrow(() -> new NotFoundException("Compilation with id=" + compId + " was not found"));
-//
-//
         CompilationDto compilationDto = compilationRepository.findCompilationById(compId)
                 .orElseThrow(() -> new NotFoundException("Compilation with id=" + compId + " was not found"));
-        List<EventShortDto> eventShortDtoList = eventRepository.findEventsByCompilationId(compId);
+        List<Event> eventList = eventRepository.findEventsByCompilationId(compId);
+        List<EventShortDto> eventShortDtoList = eventList.stream().map(EventMapper::fromEventToEventShortDto).toList();
         compilationDto.setEvents(eventShortDtoList);
         return compilationDto;
 
