@@ -142,9 +142,6 @@ public class AdminServiceImpl implements AdminService {
         idValidation(eventId, "eventId");
         Event oldEvent = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with id= " + eventId + " was not found"));
-        if (updateEvent.getEventDate().isBefore(LocalDateTime.now())) {
-            throw new BadRequestException("Event date must before now date");
-        }
         if (updateEvent.getStateAction() != null) {
             if (updateEvent.getStateAction().equals(StateAction.PUBLISH_EVENT.name())) {
                 if (!oldEvent.getState().equals(EventState.PENDING.name())) {
@@ -164,6 +161,9 @@ public class AdminServiceImpl implements AdminService {
             }
         }
         if (updateEvent.getEventDate() != null) {
+            if (updateEvent.getEventDate().isBefore(LocalDateTime.now())) {
+                throw new BadRequestException("Event date must before now date");
+            }
             if (oldEvent.getState().equals(EventState.PUBLISHED.name())
                     && oldEvent.getPublishedOn().plusHours(1).isAfter(updateEvent.getEventDate())) {
                 throw new ConflictException("The start date of the modified event must be no earlier than one hour" +
