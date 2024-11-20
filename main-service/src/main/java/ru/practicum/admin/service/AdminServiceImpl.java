@@ -1,7 +1,6 @@
 package ru.practicum.admin.service;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -129,13 +128,7 @@ public class AdminServiceImpl implements AdminService {
 
         Pageable pageable = PageRequest.of(from / size, size);
 
-        JPAQuery<EventShortDto> query = new JPAQuery<>(entityManager);
-        List<Event> events = query.select(event)
-                .from(event)
-                .where(booleanBuilder)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+        List<Event> events = eventRepository.findAll(booleanBuilder, pageable).getContent();
 
         return events.stream().map(EventMapper::fromEventToEventFullDto).toList();
     }

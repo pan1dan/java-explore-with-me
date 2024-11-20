@@ -66,12 +66,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>ru.practicum</groupId>
@@ -132,5 +126,17 @@
             <artifactId>spring-context</artifactId>
             <version>6.1.14</version>
         </dependency>
+
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+<!--            <version>2.1.1</version>-->
+        </dependency>
+
+
+        <!--        <dependency>-->
+<!--            <groupId>jakarta.persistence</groupId>-->
+<!--            <artifactId>jakarta.persistence-api</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

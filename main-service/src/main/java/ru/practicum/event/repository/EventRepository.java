@@ -3,6 +3,7 @@ package ru.practicum.event.repository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.model.EventShortDto;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface EventRepository extends JpaRepository<Event, Long> {
+public interface EventRepository extends JpaRepository<Event, Long>, QuerydslPredicateExecutor<Event> {
 
     @Query("SELECT new ru.practicum.event.model.EventShortDto(e.id, e.annotation, " +
            "new ru.practicum.category.model.CategoryDto(c.id, c.name), e.confirmedRequests, " +
@@ -30,23 +31,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
            "WHERE e.initiator.id = :initiatorId " +
            "ORDER BY e.id ASC")
     List<EventShortDto> findAllEventsByInitiatorId(Long initiatorId, Pageable pageable);
-
-//    @Query("SELECT new ru.practicum.event.model.EventShortDto(e.id, e.annotation, e.category, e.confirmedRequests, " +
-//           "e.eventDate, new ru.practicum.user.model.UserShortDto(e.initiator.id, e.initiator.name), " +
-//           "e.paid, e.title, e.views) " +
-//           "FROM Event e " +
-//           "WHERE (:usersIds IS NULL OR e.initiator.id IN :usersIds) " +
-//           "AND (:eventsStates IS NULL OR e.state IN :eventsStates) " +
-//           "AND (:categoriesIds IS NULL OR e.category.id IN :categoriesIds) " +
-//           "AND (:startDate IS NULL OR e.eventDate >= :startDate) " +
-//           "AND (:endDate IS NULL OR e.eventDate <= :endDate) " +
-//           "ORDER BY e.id ASC")
-//    List<EventShortDto> searchEvents(@Param("usersIds") List<Long> usersIds,
-//                                     @Param("eventsStates") List<String> eventsStates,
-//                                     @Param("categoriesIds") List<Long> categoriesIds,
-//                                     @Param("startDate") LocalDateTime startDate,
-//                                     @Param("endDate") LocalDateTime endDate,
-//                                     Pageable pageable);
 
     @Query("SELECT new ru.practicum.event.model.EventShortDto(e.id, e.annotation, " +
            "new ru.practicum.category.model.CategoryDto(e.category.id, e.category.name), e.confirmedRequests, " +
