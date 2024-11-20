@@ -16,9 +16,11 @@ import lombok.*;
 @Entity
 @Table(name = "compilations_events")
 public class CompilationsEvents {
+
     @Id
     @Column(name = "compilation_id")
-    Long compilationId;
+    private Long compilationId;
+
     @Column(name = "event_id")
-    Long eventId;
+    private Long eventId;
 }

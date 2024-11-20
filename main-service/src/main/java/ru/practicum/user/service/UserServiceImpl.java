@@ -36,11 +36,17 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
+
     private final EventRepository eventRepository;
+
     private final CategoryRepository categoryRepository;
+
     private final RequestRepository requestRepository;
+
     private final LocationRepository locationRepository;
+
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
@@ -122,68 +128,70 @@ public class UserServiceImpl implements UserService {
         return EventMapper.fromEventToEventFullDto(eventRepository.save(updateEvent(event, updateEventUserRequest)));
     }
 
-    private Event updateEvent(Event event, UpdateEventUserRequest uEUR) {
-        if (uEUR.getEventDate() != null) {
-            if (uEUR.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
+    private Event updateEvent(Event event, UpdateEventUserRequest updateEventUserRequest) {
+        if (updateEventUserRequest.getEventDate() != null) {
+            if (updateEventUserRequest.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
                 throw new ConflictException("Field: eventDate. " +
                                             "Error: должно содержать дату, которая еще не наступила и " +
                                             "отличаться от текущего времени минимум на два часа. " +
-                                            "Value: " + uEUR.getEventDate());
+                                            "Value: " + updateEventUserRequest.getEventDate());
             }
-            event.setEventDate(uEUR.getEventDate());
+            event.setEventDate(updateEventUserRequest.getEventDate());
         }
-        if (uEUR.getAnnotation() != null) {
-            if (uEUR.getAnnotation().length() < 20 || uEUR.getAnnotation().length() > 2000) {
+        if (updateEventUserRequest.getAnnotation() != null) {
+            if (updateEventUserRequest.getAnnotation().length() < 20
+                    || updateEventUserRequest.getAnnotation().length() > 2000) {
                 throw new ForbiddenException("Field annotation min length 20, max length 2000, " +
-                        "now annotation_length=" + uEUR.getAnnotation().length());
+                        "now annotation_length=" + updateEventUserRequest.getAnnotation().length());
             }
-            event.setAnnotation(uEUR.getAnnotation());
+            event.setAnnotation(updateEventUserRequest.getAnnotation());
         }
-        if (uEUR.getCategory() != null) {
-            if (uEUR.getCategory() < 0) {
+        if (updateEventUserRequest.getCategory() != null) {
+            if (updateEventUserRequest.getCategory() < 0) {
                 throw new ForbiddenException("Category id must be greater than or equal to 0, " +
-                        "now category=" + uEUR.getCategory());
+                        "now category=" + updateEventUserRequest.getCategory());
             }
-            Category category = categoryRepository.findById(Long.valueOf(uEUR.getCategory())).orElseThrow(() ->
-                    new NotFoundException("Category with id= " + uEUR.getCategory() + " was not found"));
+            Category category = categoryRepository.findById(Long.valueOf(updateEventUserRequest.getCategory())).orElseThrow(() ->
+                    new NotFoundException("Category with id= " + updateEventUserRequest.getCategory() + " was not found"));
             event.setCategory(category);
         }
-        if (uEUR.getDescription() != null) {
-            if (uEUR.getDescription().length() < 20 || uEUR.getDescription().length() > 7000) {
+        if (updateEventUserRequest.getDescription() != null) {
+            if (updateEventUserRequest.getDescription().length() < 20
+                    || updateEventUserRequest.getDescription().length() > 7000) {
                 throw new ForbiddenException("Field description min length 20, max length 7000, " +
-                        "now description_length=" + uEUR.getDescription().length());
+                        "now description_length=" + updateEventUserRequest.getDescription().length());
             }
-            event.setDescription(uEUR.getDescription());
+            event.setDescription(updateEventUserRequest.getDescription());
         }
-        if (uEUR.getLocation() != null) {
-            LocationDto locationDto = locationRepository.save(LocationMapper.fromLocationToLocationDto(uEUR.getLocation()));
+        if (updateEventUserRequest.getLocation() != null) {
+            LocationDto locationDto = locationRepository.save(LocationMapper.fromLocationToLocationDto(updateEventUserRequest.getLocation()));
             event.setLocation(locationDto);
         }
-        if (uEUR.getPaid() != null) {
-            event.setPaid(uEUR.getPaid());
+        if (updateEventUserRequest.getPaid() != null) {
+            event.setPaid(updateEventUserRequest.getPaid());
         }
-        if (uEUR.getParticipantLimit() != null) {
-            event.setParticipantLimit(uEUR.getParticipantLimit());
+        if (updateEventUserRequest.getParticipantLimit() != null) {
+            event.setParticipantLimit(updateEventUserRequest.getParticipantLimit());
         }
-        if (uEUR.getRequestModeration() != null) {
-            event.setRequestModeration(uEUR.getRequestModeration());
+        if (updateEventUserRequest.getRequestModeration() != null) {
+            event.setRequestModeration(updateEventUserRequest.getRequestModeration());
         }
-        if (uEUR.getStateAction() != null) {
-            if (uEUR.getStateAction().equals(StateAction.SEND_TO_REVIEW.name())) {
+        if (updateEventUserRequest.getStateAction() != null) {
+            if (updateEventUserRequest.getStateAction().equals(StateAction.SEND_TO_REVIEW.name())) {
                 event.setState(EventState.PENDING.name());
-            } else if (uEUR.getStateAction().equals(StateAction.CANCEL_REVIEW.name())) {
+            } else if (updateEventUserRequest.getStateAction().equals(StateAction.CANCEL_REVIEW.name())) {
                 event.setState(EventState.CANCELED.name());
             } else {
                 throw new ForbiddenException("StateAction must be SEND_TO_REVIEW or CANCEL_REVIEW, " +
-                        "now stateAction=" + uEUR.getStateAction());
+                        "now stateAction=" + updateEventUserRequest.getStateAction());
             }
         }
-        if (uEUR.getTitle() != null) {
-            if (uEUR.getTitle().length() < 3 || uEUR.getTitle().length() > 120) {
+        if (updateEventUserRequest.getTitle() != null) {
+            if (updateEventUserRequest.getTitle().length() < 3 || updateEventUserRequest.getTitle().length() > 120) {
                 throw new ForbiddenException("Field title min length 3, max length 120, " +
-                        "now title_length=" + uEUR.getTitle().length());
+                        "now title_length=" + updateEventUserRequest.getTitle().length());
             }
-            event.setTitle(uEUR.getTitle());
+            event.setTitle(updateEventUserRequest.getTitle());
         }
 
         return event;
@@ -281,6 +289,7 @@ public class UserServiceImpl implements UserService {
         idValidation(userId, "userId");
         UserDto userDto = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User with id= "
                 + userId + " was not found"));
+
         return requestRepository.findAllByRequesterId(userId);
     }
 
@@ -307,6 +316,7 @@ public class UserServiceImpl implements UserService {
                 throw new ConflictException("event participant limit has been exceeded");
             }
         }
+
         ParticipationRequestDto newRequest = ParticipationRequestDto.builder()
                 .id(null)
                 .created(LocalDateTime.now())
@@ -321,6 +331,7 @@ public class UserServiceImpl implements UserService {
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
             eventRepository.save(event);
         }
+
         return requestRepository.save(newRequest);
     }
 
@@ -328,11 +339,13 @@ public class UserServiceImpl implements UserService {
     public ParticipationRequestDto cancelUserRequestOnEvent(Long userId, Long requestId) {
         idValidation(userId, "userId");
         idValidation(requestId, "requestId");
+
         UserDto userDto = userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("User with id= " + userId + " was not found"));
         ParticipationRequestDto request = requestRepository.findById(requestId).orElseThrow(() ->
                 new NotFoundException("UserRequest with id= " + requestId + " was not found"));
         request.setStatus(RequestStatus.CANCELED.name());
+
         return requestRepository.save(request);
     }
 

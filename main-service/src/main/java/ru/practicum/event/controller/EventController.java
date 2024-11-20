@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/events")
 public class EventController {
+
     private final EventService eventService;
 
     @GetMapping
@@ -35,6 +36,7 @@ public class EventController {
                 sort, from, size);
         log.info("client ip: {}", request.getRemoteAddr());
         log.info("endpoint path: {}", request.getRequestURI());
+
         List<EventShortDto> eventShortDtoList = eventService.getEventsByCondition(text, categoriesIds, isPaid, startDate,
                                                                                 endDate, isAvailable, sort, from, size, request);
         log.info("GET /events, text={}, categories={}, paid={}, rangeStart={}, rangeEnd={}, onlyAvailable={}, " +

@@ -26,7 +26,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
+
     private final StatsClient statsClient;
+
     private final EventRepository eventRepository;
 
     @Transactional

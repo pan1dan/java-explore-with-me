@@ -16,17 +16,22 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "requests")
 public class ParticipationRequestDto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_id")
-    Long id;
+    private Long id;
+
     @Column(name = "created")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime created;
+    private LocalDateTime created;
+
     @Column(name = "event_id")
-    Long event;
+    private Long event;
+
     @Column(name = "requester_id")
-    Long requester;
+    private Long requester;
+
     @Column(name = "status")
-    String status;
+    private String status;
 }

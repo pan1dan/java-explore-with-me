@@ -19,45 +19,61 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "events")
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
-    Long id;
+    private Long id;
+
     @Column(name = "annotation")
-    String annotation;
+    private String annotation;
+
     @JoinColumn(name = "category_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
-    Category category;
+    private Category category;
+
     @Column(name = "confirmed_requests")
-    Integer confirmedRequests;
+    private Integer confirmedRequests;
+
     @Column(name = "created_on")
-    LocalDateTime createdOn;
+    private LocalDateTime createdOn;
+
     @Column(name = "description")
-    String description;
+    private String description;
+
     @Column(name = "event_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime eventDate;
+    private LocalDateTime eventDate;
+
     @JoinColumn(name = "initiator_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
-    UserDto initiator;
+    private UserDto initiator;
+
     @JoinColumn(name = "location_id")
     @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
-    LocationDto location;
+    private LocationDto location;
+
     @Column(name = "paid")
-    Boolean paid;
+    private Boolean paid;
+
     @Column(name = "participant_limit")
-    Integer participantLimit;
+    private Integer participantLimit;
+
     @Column(name = "published_on")
-    LocalDateTime publishedOn;
+    private LocalDateTime publishedOn;
+
     @Column(name = "request_moderation")
-    Boolean requestModeration;
+    private Boolean requestModeration;
+
     @Column(name = "state")
-    String state;
+    private String state;
+
     @Column(name = "title")
-    String title;
+    private String title;
+
     @Column(name = "views")
-    Integer views;
+    private Integer views;
 }

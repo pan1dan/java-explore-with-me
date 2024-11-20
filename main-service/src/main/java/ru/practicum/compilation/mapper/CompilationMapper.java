@@ -5,6 +5,7 @@ import ru.practicum.compilation.model.CompilationDto;
 import ru.practicum.compilation.model.NewCompilationDto;
 
 public class CompilationMapper {
+
     public static CompilationDto fromCompilationToCompilationDto(Compilation compilation) {
         return CompilationDto.builder()
                 .events(null)

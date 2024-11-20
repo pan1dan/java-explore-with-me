@@ -9,7 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewCategoryDto {
+
     @Size(max = 50, min = 1, message = "The name should contain from 1 to 50 characters")
     @NotBlank(message = "must not be blank")
-    String name;
+    private String name;
 }

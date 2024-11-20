@@ -25,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin")
 public class AdminController {
+
     private final AdminService adminService;
 
     @PostMapping("/categories")

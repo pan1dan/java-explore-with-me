@@ -13,12 +13,15 @@ import lombok.*;
 @Entity
 @Table(name = "compilations")
 public class Compilation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "compilation_id")
-    Long id;
+    private Long id;
+
     @Column(name = "pinned")
-    Boolean pinned;
+    private Boolean pinned;
+
     @Column(name = "title")
-    String title;
+    private String title;
 }

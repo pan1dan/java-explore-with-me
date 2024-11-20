@@ -41,11 +41,17 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
+
     private final CategoryRepository categoryRepository;
+
     private final EventRepository eventRepository;
+
     private final UserRepository userRepository;
+
     private final CompilationsEventsRepository compilationsEventsRepository;
+
     private final CompilationRepository compilationRepository;
+
     private final LocationRepository locationRepository;
 
     @PersistenceContext

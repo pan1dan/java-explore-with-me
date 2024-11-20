@@ -16,11 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewCompilationDto {
+
     @UniqueElements
-    List<Long> events;
-    Boolean pinned;
+    private List<Long> events;
+
+    private Boolean pinned;
+
     @NotNull
     @NotBlank
     @Size(max = 50, min = 1, message = "The title should contain from 1 to 50 characters")
-    String title;
+    private String title;
 }

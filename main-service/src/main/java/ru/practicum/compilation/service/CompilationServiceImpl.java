@@ -24,7 +24,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class CompilationServiceImpl implements CompilationService {
+
     private final CompilationRepository compilationRepository;
+
     private final EventRepository eventRepository;
 
     @Override

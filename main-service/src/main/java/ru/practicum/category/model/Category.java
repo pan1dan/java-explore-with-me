@@ -13,10 +13,12 @@ import lombok.*;
 @Entity
 @Table(name = "categories")
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    Long id;
+    private Long id;
+
     @Column(name = "name", unique = true)
-    String name;
+    private String name;
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/categories")
 public class CategoryController {
+
     private final CategoryService categoryService;
 
     @GetMapping

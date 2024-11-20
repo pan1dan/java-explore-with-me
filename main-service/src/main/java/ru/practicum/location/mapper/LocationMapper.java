@@ -7,16 +7,16 @@ public class LocationMapper {
 
     public static Location fromLocationDtoToLocation(LocationDto locationDto) {
         return Location.builder()
-                .lat(locationDto.getLat())
-                .lon(locationDto.getLon())
-                .build();
+                       .lat(locationDto.getLat())
+                       .lon(locationDto.getLon())
+                       .build();
     }
 
     public static LocationDto fromLocationToLocationDto(Location location) {
         return LocationDto.builder()
-                .id(null)
-                .lat(location.getLat())
-                .lon(location.getLon())
-                .build();
+                          .id(null)
+                          .lat(location.getLat())
+                          .lon(location.getLon())
+                          .build();
     }
 }

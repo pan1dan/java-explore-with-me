@@ -13,11 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewUserRequest {
+
     @NotBlank(message = "must not be blank")
     @Email
     @Size(max = 254, min = 6, message = "The email should contain from 6 to 254 characters")
-    String email;
+    private String email;
+
     @NotBlank(message = "must not be blank")
     @Size(max = 250, min = 2, message = "The name should contain from 2 to 250 characters")
-    String name;
+    private String name;
 }

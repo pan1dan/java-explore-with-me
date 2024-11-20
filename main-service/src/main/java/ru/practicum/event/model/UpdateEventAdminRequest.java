@@ -12,18 +12,28 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateEventAdminRequest {
+
     @Size(max = 2000, min = 20, message = "The annotation should contain from 20 to 2000 characters")
-    String annotation;
-    Long category;
+    private String annotation;
+
+    private Long category;
+
     @Size(max = 7000, min = 20, message = "The description should contain from 20 to 7000 characters")
-    String description;
+    private String description;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime eventDate;
-    Location location;
-    Boolean paid;
-    Integer participantLimit;
-    Boolean requestModeration;
-    String stateAction;
+    private LocalDateTime eventDate;
+
+    private Location location;
+
+    private Boolean paid;
+
+    private Integer participantLimit;
+
+    private Boolean requestModeration;
+
+    private String stateAction;
+
     @Size(max = 120, min = 3, message = "The title should contain from 3 to 120 characters")
-    String title;
+    private String title;
 }

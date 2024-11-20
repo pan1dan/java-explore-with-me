@@ -17,6 +17,7 @@ import java.util.Objects;
 public class CompilationsEventsId implements Serializable {
 
     private Long compilationId;
+
     private Long eventId;
 
     @Override

@@ -13,12 +13,15 @@ import lombok.*;
 @Entity
 @Table(name = "users")
 public class UserDto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    Long id;
+    private Long id;
+
     @Column(name = "email")
-    String email;
+    private String email;
+
     @Column(name = "name")
-    String name;
+    private String name;
 }

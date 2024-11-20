@@ -1,7 +1,6 @@
 package ru.practicum.event.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import ru.practicum.category.model.CategoryDto;
 import ru.practicum.location.model.Location;
@@ -13,24 +12,39 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class EventFullDto {
-    Long id;
-    String annotation;
-    CategoryDto category;
-    Integer confirmedRequests;
+
+    private Long id;
+
+    private String annotation;
+
+    private CategoryDto category;
+
+    private Integer confirmedRequests;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime createdOn;
-    String description;
+    private LocalDateTime createdOn;
+
+    private String description;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime eventDate;
-    UserShortDto initiator;
-    Location location;
-    Boolean paid;
-    Integer participantLimit;
-    LocalDateTime publishedOn;
-    Boolean requestModeration;
-    String state;
-    String title;
-    Integer views;
+    private LocalDateTime eventDate;
+
+    private UserShortDto initiator;
+
+    private Location location;
+
+    private Boolean paid;
+
+    private Integer participantLimit;
+
+    private LocalDateTime publishedOn;
+
+    private Boolean requestModeration;
+
+    private String state;
+
+    private String title;
+
+    private Integer views;
 }
