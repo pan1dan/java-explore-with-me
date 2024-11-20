@@ -197,8 +197,11 @@ public class UserServiceImpl implements UserService {
                 + userId + " was not found"));
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with id= " + eventId + " was not found"));
+        if (!event.getInitiator().getId().equals(userId)) {
+            throw new ForbiddenException("Only event initiator can get requests");
+        }
 
-        return requestRepository.findAllRequestsByUserIdAndEventId(userId, eventId);
+        return requestRepository.findAllRequestsByEventId(eventId);
     }
 
     @Transactional
@@ -212,6 +215,9 @@ public class UserServiceImpl implements UserService {
                 + userId + " was not found"));
         Event event = eventRepository.findEventByEventId(eventId)
                 .orElseThrow(() -> new NotFoundException("Event with id= " + eventId + " was not found"));
+        if (!event.getInitiator().getId().equals(userId)) {
+            throw new ForbiddenException("Only event initiator can get requests");
+        }
         List<Long> requestsIds = updateRequest.getRequestIds();
 
         List<ParticipationRequestDto> requestDtoListBefore = requestRepository.findAllById(requestsIds);
@@ -312,7 +318,7 @@ public class UserServiceImpl implements UserService {
             newRequest.setStatus(RequestStatus.PENDING.name());
         } else {
             newRequest.setStatus(RequestStatus.CONFIRMED.name());
-            event.setParticipantLimit(event.getParticipantLimit() + 1);
+            event.setConfirmedRequests(event.getConfirmedRequests() + 1);
             eventRepository.save(event);
         }
         return requestRepository.save(newRequest);

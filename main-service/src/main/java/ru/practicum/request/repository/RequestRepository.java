@@ -12,9 +12,8 @@ public interface RequestRepository extends JpaRepository<ParticipationRequestDto
 
     @Query("SELECT r " +
            "FROM ParticipationRequestDto r " +
-           "WHERE r.requester = :userId AND r.event = :eventId ")
-    List<ParticipationRequestDto> findAllRequestsByUserIdAndEventId(@Param("userId") Long userId,
-                                                                    @Param("eventId") Long eventId);
+           "WHERE r.event = :eventId ")
+    List<ParticipationRequestDto> findAllRequestsByEventId(@Param("eventId") Long eventId);
 
     @Query("SELECT r " +
            "FROM ParticipationRequestDto r " +

@@ -153,6 +153,7 @@ public class AdminServiceImpl implements AdminService {
                                                                                                 + oldEvent.getState());
                 } else {
                    oldEvent.setState(EventState.PUBLISHED.name());
+                   oldEvent.setPublishedOn(LocalDateTime.now());
                 }
             }
             if (updateEvent.getStateAction().equals((StateAction.REJECT_EVENT.name()))) {
