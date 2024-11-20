@@ -13,7 +13,6 @@ public class MainServer {
         SpringApplication.run(MainServer.class, args);
     }
 
-    // Метод для создания RestTemplate бин
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
