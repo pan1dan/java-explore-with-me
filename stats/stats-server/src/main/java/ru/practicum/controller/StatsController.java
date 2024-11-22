@@ -3,6 +3,7 @@ package ru.practicum.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.service.StatsService;
@@ -26,7 +27,7 @@ public class StatsController {
     public List<ViewStatsDto> getStats(@RequestParam String start,
                                        @RequestParam String end,
                                        @RequestParam(required = false) List<String> uris,
-                                       @RequestParam(defaultValue = "false") Boolean unique) {
+                                       @RequestParam(defaultValue = "false") Boolean unique) throws BadRequestException {
         LocalDateTime rightStart = LocalDateTime.parse(URLDecoder.decode(start, StandardCharsets.UTF_8),
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime rightEnd = LocalDateTime.parse(URLDecoder.decode(end, StandardCharsets.UTF_8),

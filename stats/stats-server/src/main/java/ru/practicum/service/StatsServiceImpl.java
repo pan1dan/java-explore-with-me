@@ -2,6 +2,7 @@ package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import ru.practicum.dto.EndpointHit;
 import ru.practicum.dto.EndpointHitDto;
@@ -19,7 +20,12 @@ public class StatsServiceImpl implements StatsService {
     private final StatsRepository statsRepository;
 
     @Override
-    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) throws BadRequestException {
+        if (start != null && end != null) {
+            if (end.isBefore(start)) {
+                throw new BadRequestException("End date can't be before start date");
+            }
+        }
         List<ViewStatsDto> statsList;
         if (unique && uris != null) {
             statsList = statsRepository.findAllStatsWithUniqueAndUris(start, end, uris);

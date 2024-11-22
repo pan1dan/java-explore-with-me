@@ -1,10 +1,11 @@
 package ru.practicum.client;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.practicum.dto.EndpointHitDto;
@@ -15,19 +16,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
-@Component
+@Service
 public class StatsClient {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final RestTemplate restTemplate;
-    private final String baseUrl;
+    @Value("${client.url}")
+    private String baseUrl;
 
-    public StatsClient(@Value("${client.url}") String baseUrl, RestTemplate restTemplate) {
-        this.baseUrl = baseUrl;
+    @Autowired
+    public StatsClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-        String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
+        String url = UriComponentsBuilder.fromHttpUrl(baseUrl).path("/stats")
                 .queryParam("start", start.format(dateTimeFormatter))
                 .queryParam("end", end.format(dateTimeFormatter))
                 .queryParam("uris", uris)
