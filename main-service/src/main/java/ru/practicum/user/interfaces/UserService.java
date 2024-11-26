@@ -1,5 +1,8 @@
 package ru.practicum.user.interfaces;
 
+import ru.practicum.comment.model.CommentDto;
+import ru.practicum.comment.model.NewCommentDto;
+import ru.practicum.comment.model.UpdateCommentDto;
 import ru.practicum.event.model.*;
 import ru.practicum.request.model.EventRequestStatusUpdateRequest;
 import ru.practicum.request.model.EventRequestStatusUpdateResult;
@@ -29,4 +32,9 @@ public interface UserService {
 
     ParticipationRequestDto cancelUserRequestOnEvent(Long userId, Long requestId);
 
+    CommentDto addUserComment(Long userId, Long eventId, NewCommentDto newCommentDto);
+
+    CommentDto updateUserComment(Long userId, Long eventId, Long commentId, UpdateCommentDto updateCommentDto);
+
+    void deleteUserComment(Long userId, Long commentId);
 }
