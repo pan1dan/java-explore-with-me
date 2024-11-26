@@ -222,7 +222,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/admin/events/138",
+							"raw": "http://localhost:8080/admin/events/107",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -231,7 +231,7 @@
 							"path": [
 								"admin",
 								"events",
-								"138"
+								"107"
 							]
 						}
 					},
