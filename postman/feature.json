@@ -97,7 +97,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Ball3375\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Category1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -169,7 +169,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"annotation\":\"Tempora molestiae animi molestiae quos id sunt assumenda. Deserunt dicta pariatur suscipit unde voluptas. Eveniet quia doloribus ut. Omnis quas aut sit voluptas quisquam. Mollitia recusandae ut aut qui non reprehenderit et aut. Optio consectetur optio sit nisi.\",\r\n    \"category\":1,\r\n    \"description\":\"Animi consequatursoluta. Impedit aspernatur recusandae minima blanditiis magni ut est aut velit. Autem recusandae praesentium in consequatur. Quidem tempora fuga suscipit.\\n \\rPariatur dolores vero nemo repellat repellendus dolor eveniet ad quos. Voluptas sunt et. Corporis est molestias quia dolor sit voluptatem quia.\\n \\rVoluptatem est aperiam. Nesciunt eos ipsam asperiores sit nisi. Quia reiciendis tenetur est veniam natus quo. Aut ratione sunt repudiandae voluptatem facilis natus possimus eum voluptatibus. Voluptate odit culpa dolor vel eligendi nemo.\",\r\n    \"eventDate\":\"2024-12-12 00:27:59\",\r\n    \"location\":\r\n    {\r\n        \"lat\":-46.2607,\r\n        \"lon\":-2.4664\r\n    }\r\n    ,\"paid\":\"true\",\r\n    \"participantLimit\":\"150\",\r\n    \"requestModeration\":\"false\",\r\n    \"title\":\"Est quisquam est rerum earum quae qui similique velit.\"\r\n}",
+							"raw": "{\r\n    \"annotation\":\"Tempora molestiae animi molestiae quos id sunt assumenda. Deserunt dicta pariatur suscipit unde voluptas. Eveniet quia doloribus ut. Omnis quas aut sit voluptas quisquam. Mollitia recusandae ut aut qui non reprehenderit et aut. Optio consectetur optio sit nisi.\",\r\n    \"category\":123,\r\n    \"description\":\"Animi consequatursoluta. Impedit aspernatur recusandae minima blanditiis magni ut est aut velit. Autem recusandae praesentium in consequatur. Quidem tempora fuga suscipit.\\n \\rPariatur dolores vero nemo repellat repellendus dolor eveniet ad quos. Voluptas sunt et. Corporis est molestias quia dolor sit voluptatem quia.\\n \\rVoluptatem est aperiam. Nesciunt eos ipsam asperiores sit nisi. Quia reiciendis tenetur est veniam natus quo. Aut ratione sunt repudiandae voluptatem facilis natus possimus eum voluptatibus. Voluptate odit culpa dolor vel eligendi nemo.\",\r\n    \"eventDate\":\"2024-12-12 00:27:59\",\r\n    \"location\":\r\n    {\r\n        \"lat\":-46.2607,\r\n        \"lon\":-2.4664\r\n    }\r\n    ,\"paid\":\"true\",\r\n    \"participantLimit\":\"150\",\r\n    \"requestModeration\":\"false\",\r\n    \"title\":\"Est quisquam est rerum earum quae qui similique velit.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -177,7 +177,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users/1/events",
+							"raw": "http://localhost:8080/users/138/events",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -185,7 +185,7 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"1",
+								"138",
 								"events"
 							]
 						}
@@ -222,7 +222,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/admin/events/1",
+							"raw": "http://localhost:8080/admin/events/138",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -231,7 +231,7 @@
 							"path": [
 								"admin",
 								"events",
-								"1"
+								"138"
 							]
 						}
 					},
@@ -281,7 +281,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users/1/events/1/comments",
+							"raw": "http://localhost:8080/users/138/events/107/comments",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -289,9 +289,9 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"1",
+								"138",
 								"events",
-								"1",
+								"107",
 								"comments"
 							]
 						}
@@ -397,7 +397,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users/1/events/1/comments/1",
+							"raw": "http://localhost:8080/users/138/events/107/comments/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -405,9 +405,9 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"1",
+								"138",
 								"events",
-								"1",
+								"107",
 								"comments",
 								"1"
 							]
@@ -459,7 +459,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users/1/events/1/comments",
+							"raw": "http://localhost:8080/users/138/events/107/comments",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -467,9 +467,9 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"1",
+								"138",
 								"events",
-								"1",
+								"107",
 								"comments"
 							]
 						}
@@ -501,7 +501,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/comments/events/1",
+							"raw": "http://localhost:8080/comments/events/107",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -510,7 +510,7 @@
 							"path": [
 								"comments",
 								"events",
-								"1"
+								"107"
 							]
 						}
 					},
@@ -540,7 +540,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/admin/users/1/comments",
+							"raw": "http://localhost:8080/admin/users/138/comments",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -549,7 +549,7 @@
 							"path": [
 								"admin",
 								"users",
-								"1",
+								"138",
 								"comments"
 							]
 						}
@@ -577,7 +577,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users/1/comments/1",
+							"raw": "http://localhost:8080/users/138/comments/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -585,7 +585,7 @@
 							"port": "8080",
 							"path": [
 								"users",
-								"1",
+								"138",
 								"comments",
 								"1"
 							]
@@ -654,7 +654,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/comments/events/1",
+							"raw": "http://localhost:8080/comments/events/107",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -663,7 +663,7 @@
 							"path": [
 								"comments",
 								"events",
-								"1"
+								"107"
 							]
 						}
 					},
@@ -801,7 +801,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/users/2/events/2/comments",
+									"raw": "http://localhost:8080/users/2000/events/2000/comments",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -809,9 +809,9 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"2",
+										"2000",
 										"events",
-										"2",
+										"2000",
 										"comments"
 									]
 								}
@@ -904,7 +904,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/users/2/events/2/comments",
+									"raw": "http://localhost:8080/users/139/events/3723/comments",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -912,9 +912,9 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"2",
+										"139",
 										"events",
-										"2",
+										"3723",
 										"comments"
 									]
 								}
@@ -1020,7 +1020,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"annotation\":\"sdfsdfsdfsdfsdf molestiae animi molestiae quos id sunt assumenda. Deserunt dicta pariatur suscipit unde voluptas. Eveniet quia doloribus ut. Omnis quas aut sit voluptas quisquam. Mollitia recusandae ut aut qui non reprehenderit et aut. Optio consectetur optio sit nisi.\",\r\n    \"category\":2,\r\n    \"description\":\"Animi consequatursoluta. Impedit aspernatur recusandae minima blanditiis magni ut est aut velit. Autem recusandae praesentium in consequatur. Quidem tempora fuga suscipit.\\n \\rPariatur dolores vero nemo repellat repellendus dolor eveniet ad quos. Voluptas sunt et. Corporis est molestias quia dolor sit voluptatem quia.\\n \\rVoluptatem est aperiam. Nesciunt eos ipsam asperiores sit nisi. Quia reiciendis tenetur est veniam natus quo. Aut ratione sunt repudiandae voluptatem facilis natus possimus eum voluptatibus. Voluptate odit culpa dolor vel eligendi nemo.\",\r\n    \"eventDate\":\"2024-12-24 00:27:59\",\r\n    \"location\":\r\n    {\r\n        \"lat\":-123.2607,\r\n        \"lon\":-31132.4664\r\n    }\r\n    ,\"paid\":\"true\",\r\n    \"participantLimit\":\"150\",\r\n    \"requestModeration\":\"false\",\r\n    \"title\":\"23423dffd quisquam est rerum earum quae qui similique velit.\"\r\n}",
+									"raw": "{\r\n    \"annotation\":\"sdfsdfsdfsdfsdf molestiae animi molestiae quos id sunt assumenda. Deserunt dicta pariatur suscipit unde voluptas. Eveniet quia doloribus ut. Omnis quas aut sit voluptas quisquam. Mollitia recusandae ut aut qui non reprehenderit et aut. Optio consectetur optio sit nisi.\",\r\n    \"category\":124,\r\n    \"description\":\"Animi consequatursoluta. Impedit aspernatur recusandae minima blanditiis magni ut est aut velit. Autem recusandae praesentium in consequatur. Quidem tempora fuga suscipit.\\n \\rPariatur dolores vero nemo repellat repellendus dolor eveniet ad quos. Voluptas sunt et. Corporis est molestias quia dolor sit voluptatem quia.\\n \\rVoluptatem est aperiam. Nesciunt eos ipsam asperiores sit nisi. Quia reiciendis tenetur est veniam natus quo. Aut ratione sunt repudiandae voluptatem facilis natus possimus eum voluptatibus. Voluptate odit culpa dolor vel eligendi nemo.\",\r\n    \"eventDate\":\"2024-12-24 00:27:59\",\r\n    \"location\":\r\n    {\r\n        \"lat\":-123.2607,\r\n        \"lon\":-31132.4664\r\n    }\r\n    ,\"paid\":\"true\",\r\n    \"participantLimit\":\"150\",\r\n    \"requestModeration\":\"false\",\r\n    \"title\":\"23423dffd quisquam est rerum earum quae qui similique velit.\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1073,7 +1073,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/users/2/events/2/comments",
+									"raw": "http://localhost:8080/users/139/events/108/comments",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1081,9 +1081,9 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"2",
+										"139",
 										"events",
-										"2",
+										"108",
 										"comments"
 									]
 								}
@@ -1120,7 +1120,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/admin/events/2",
+									"raw": "http://localhost:8080/admin/events/108",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1129,7 +1129,7 @@
 									"path": [
 										"admin",
 										"events",
-										"2"
+										"108"
 									]
 								}
 							},
@@ -1179,7 +1179,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/users/2/events/2/comments",
+									"raw": "http://localhost:8080/users/139/events/108/comments",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1187,9 +1187,9 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"2",
+										"139",
 										"events",
-										"2",
+										"108",
 										"comments"
 									]
 								}
@@ -1226,7 +1226,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/users/2/events/2/comments",
+									"raw": "http://localhost:8080/users/139/events/108/comments",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1234,9 +1234,9 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"2",
+										"139",
 										"events",
-										"2",
+										"108",
 										"comments"
 									]
 								}
@@ -1273,7 +1273,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/users/2/events/2/comments/3",
+									"raw": "http://localhost:8080/users/139/events/108/comments/3",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1281,9 +1281,9 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"2",
+										"139",
 										"events",
-										"2",
+										"108",
 										"comments",
 										"3"
 									]
@@ -1321,7 +1321,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/users/2/events/2/comments/4",
+									"raw": "http://localhost:8080/users/139/events/108/comments/4",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1329,9 +1329,9 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"2",
+										"139",
 										"events",
-										"2",
+										"108",
 										"comments",
 										"4"
 									]
@@ -1360,7 +1360,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/users/2/comments/4",
+									"raw": "http://localhost:8080/users/139/comments/4",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1368,7 +1368,7 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"2",
+										"139",
 										"comments",
 										"4"
 									]
@@ -1397,7 +1397,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/users/1/comments/3",
+									"raw": "http://localhost:8080/users/138/comments/3",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1405,7 +1405,7 @@
 									"port": "8080",
 									"path": [
 										"users",
-										"1",
+										"138",
 										"comments",
 										"3"
 									]
@@ -1439,7 +1439,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/admin/users/3/comments",
+									"raw": "http://localhost:8080/admin/users/3123/comments",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1448,7 +1448,7 @@
 									"path": [
 										"admin",
 										"users",
-										"3",
+										"3123",
 										"comments"
 									]
 								}
@@ -1476,7 +1476,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/admin/users/3/comments?from=-1",
+									"raw": "http://localhost:8080/admin/users/140/comments?size=-1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1485,12 +1485,12 @@
 									"path": [
 										"admin",
 										"users",
-										"3",
+										"140",
 										"comments"
 									],
 									"query": [
 										{
-											"key": "from",
+											"key": "size",
 											"value": "-1"
 										}
 									]
@@ -1519,7 +1519,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/admin/users/3/comments?size=-1",
+									"raw": "http://localhost:8080/admin/users/140/comments?size=-1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1528,7 +1528,7 @@
 									"path": [
 										"admin",
 										"users",
-										"3",
+										"140",
 										"comments"
 									],
 									"query": [
@@ -1604,7 +1604,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/comments/events/4",
+									"raw": "http://localhost:8080/comments/events/3265",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1613,7 +1613,7 @@
 									"path": [
 										"comments",
 										"events",
-										"4"
+										"3265"
 									]
 								}
 							},
@@ -1627,7 +1627,7 @@
 									"script": {
 										"exec": [
 											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(404);\r",
+											"    pm.response.to.have.status(400);\r",
 											"});\r",
 											""
 										],
@@ -1640,7 +1640,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/comments/events/4",
+									"raw": "http://localhost:8080/comments/events/-4",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1649,7 +1649,7 @@
 									"path": [
 										"comments",
 										"events",
-										"4"
+										"-4"
 									]
 								}
 							},
@@ -1676,7 +1676,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/comments/events/2?from=-1",
+									"raw": "http://localhost:8080/comments/events/108?from=-1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1685,7 +1685,7 @@
 									"path": [
 										"comments",
 										"events",
-										"2"
+										"108"
 									],
 									"query": [
 										{
@@ -1718,7 +1718,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/comments/events/2?size=-1",
+									"raw": "http://localhost:8080/comments/events/108?size=-1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1727,7 +1727,7 @@
 									"path": [
 										"comments",
 										"events",
-										"2"
+										"108"
 									],
 									"query": [
 										{
