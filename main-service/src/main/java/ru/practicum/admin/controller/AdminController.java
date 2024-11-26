@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.admin.interfaces.AdminService;
 import ru.practicum.category.model.NewCategoryDto;
 import ru.practicum.category.model.CategoryDto;
+import ru.practicum.comment.model.CommentDto;
 import ru.practicum.compilation.model.CompilationDto;
 import ru.practicum.compilation.model.NewCompilationDto;
 import ru.practicum.compilation.model.UpdateCompilationRequest;
@@ -147,6 +148,25 @@ public class AdminController {
         CompilationDto compilationDto = adminService.updateCompilation(compId, updateCompilation);
         log.info("PATCH /admin/compilations/{}, body: {}\n return: {}", compId, updateCompilation, compilationDto);
         return compilationDto;
+    }
+
+    @GetMapping("/users/{userId}/comments")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CommentDto> getUserCommentaries(@PathVariable(name = "userId") Long userId,
+                                                @RequestParam(defaultValue = "0", name = "from") Integer from,
+                                                @RequestParam(defaultValue = "10", name = "size") Integer size) {
+        log.info("GET /admin/users/{}/comments", userId);
+        List<CommentDto> commentDtoList = adminService.getUserCommentaries(userId, from, size);
+        log.info("GET /admin/users/{}/comments\n return: {}", userId, commentDtoList);
+        return commentDtoList;
+    }
+
+    @DeleteMapping("/users/comments/{commentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUserComment(@PathVariable(name = "commentId") Long commentId) {
+        log.info("DELETE /admin/users/comments/{}", commentId);
+        adminService.deleteUserComment(commentId);
+        log.info("DELETE /admin/users/comments/{} success", commentId);
     }
 
 }

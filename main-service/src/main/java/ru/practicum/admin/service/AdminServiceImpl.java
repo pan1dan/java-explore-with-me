@@ -16,6 +16,10 @@ import ru.practicum.category.model.Category;
 import ru.practicum.category.model.CategoryDto;
 import ru.practicum.category.model.NewCategoryDto;
 import ru.practicum.category.repository.CategoryRepository;
+import ru.practicum.comment.mapper.CommentMapper;
+import ru.practicum.comment.repository.CommentRepository;
+import ru.practicum.comment.model.Comment;
+import ru.practicum.comment.model.CommentDto;
 import ru.practicum.compilation.mapper.CompilationMapper;
 import ru.practicum.compilation.model.*;
 import ru.practicum.compilation.repository.CompilationRepository;
@@ -53,6 +57,8 @@ public class AdminServiceImpl implements AdminService {
     private final CompilationRepository compilationRepository;
 
     private final LocationRepository locationRepository;
+
+    private final CommentRepository commentRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -339,6 +345,34 @@ public class AdminServiceImpl implements AdminService {
         }
 
         return resultDto;
+    }
+
+    @Override
+    public List<CommentDto> getUserCommentaries(Long userId, Integer from, Integer size) {
+        idValidation(userId, "userId");
+        if (from < 0) {
+            throw new BadRequestException("Request parameter from must be greater than 0, now from=" + from);
+        }
+        if (size < 0) {
+            throw new BadRequestException("Request parameter 'size' must be greater than 0, now size=" + size);
+        }
+        UserDto userDto = userRepository.findById(userId).orElseThrow(() ->
+                new NotFoundException("User with id= " + userId + " was not found"));
+
+        Pageable pageable = PageRequest.of(from / size, size);
+        List<Comment> commentList = commentRepository.findAllCommentariesByCommentatorId(userId, pageable);
+        if (commentList.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return commentList.stream().map(CommentMapper::fromCommentToCommentDto).toList();
+    }
+
+    @Override
+    public void deleteUserComment(Long commentId) {
+        idValidation(commentId, "commentId");
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
+                new NotFoundException("Comment with id= " + commentId + " was not found"));
+        commentRepository.deleteById(commentId);
     }
 
     private void idValidation(Long id, String fieldName) {

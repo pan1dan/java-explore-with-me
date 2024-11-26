@@ -2,6 +2,7 @@ package ru.practicum.admin.interfaces;
 
 import ru.practicum.category.model.CategoryDto;
 import ru.practicum.category.model.NewCategoryDto;
+import ru.practicum.comment.model.CommentDto;
 import ru.practicum.compilation.model.CompilationDto;
 import ru.practicum.compilation.model.NewCompilationDto;
 import ru.practicum.compilation.model.UpdateCompilationRequest;
@@ -43,4 +44,7 @@ public interface AdminService {
 
     CompilationDto updateCompilation(Long compId, UpdateCompilationRequest updateCompilation);
 
+    List<CommentDto> getUserCommentaries(Long userId, Integer from, Integer size);
+
+    void deleteUserComment(Long commentId);
 }

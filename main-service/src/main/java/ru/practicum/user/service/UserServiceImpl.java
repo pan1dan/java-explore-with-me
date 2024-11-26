@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.category.model.Category;
 import ru.practicum.category.repository.CategoryRepository;
+import ru.practicum.comment.repository.CommentRepository;
+import ru.practicum.comment.mapper.CommentMapper;
+import ru.practicum.comment.model.Comment;
+import ru.practicum.comment.model.CommentDto;
+import ru.practicum.comment.model.NewCommentDto;
+import ru.practicum.comment.model.UpdateCommentDto;
 import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.*;
 import ru.practicum.event.repository.EventRepository;
@@ -46,6 +52,8 @@ public class UserServiceImpl implements UserService {
     private final RequestRepository requestRepository;
 
     private final LocationRepository locationRepository;
+
+    private final CommentRepository commentRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -349,11 +357,60 @@ public class UserServiceImpl implements UserService {
         return requestRepository.save(request);
     }
 
+    @Override
+    public CommentDto addUserComment(Long userId, Long eventId, NewCommentDto newCommentDto) {
+        idValidation(userId, "userId");
+        idValidation(eventId, "eventId");
+        UserDto userDto = userRepository.findById(userId).orElseThrow(() ->
+                new NotFoundException("User with id= " + userId + " was not found"));
+        Event event = eventRepository.findById(eventId).orElseThrow(() ->
+                new NotFoundException("Event with id=" + eventId + " was not found"));
+        if (!event.getState().equals(EventState.PUBLISHED.name())) {
+            throw new ConflictException("The event must have a status of PUBLISHED to be able to add a comment");
+        }
+        Comment comment = CommentMapper.fromNewCommentDtoToComment(newCommentDto, event, userDto);
+        comment = commentRepository.save(comment);
+        return CommentMapper.fromCommentToCommentDto(comment);
+    }
+
+    @Override
+    public CommentDto updateUserComment(Long userId, Long eventId, Long commentId, UpdateCommentDto updateCommentDto) {
+        idValidation(userId, "userId");
+        idValidation(eventId, "eventId");
+        idValidation(commentId, "commentId");
+        UserDto userDto = userRepository.findById(userId).orElseThrow(() ->
+                new NotFoundException("User with id= " + userId + " was not found"));
+        Event event = eventRepository.findById(eventId).orElseThrow(() ->
+                new NotFoundException("Event with id=" + eventId + " was not found"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
+                new NotFoundException("Comment with id= " + commentId + " was not found"));
+        if (!userId.equals(comment.getCommentator().getId())) {
+            throw new ForbiddenException("Only commentator can change his comment");
+        }
+
+        comment.setText(updateCommentDto.getText());
+        return CommentMapper.fromCommentToCommentDto(commentRepository.save(comment));
+    }
+
+    @Override
+    public void deleteUserComment(Long userId, Long commentId) {
+        idValidation(userId, "userId");
+        idValidation(commentId, "commentId");
+        UserDto userDto = userRepository.findById(userId).orElseThrow(() ->
+                new NotFoundException("User with id= " + userId + " was not found"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
+                new NotFoundException("Comment with id= " + commentId + " was not found"));
+        if (!userId.equals(comment.getCommentator().getId())) {
+            throw new ForbiddenException("Only commentator can delete his comment");
+        }
+
+        commentRepository.deleteById(commentId);
+    }
+
     private void idValidation(Long id, String fieldName) {
         if (id < 0) {
             throw new BadRequestException("Field " + fieldName + " must be greater than 0, " +
                     "now " + fieldName + "=" + id);
         }
     }
-
 }
